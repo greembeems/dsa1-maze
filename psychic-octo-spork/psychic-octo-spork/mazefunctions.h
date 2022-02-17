@@ -4,11 +4,11 @@
 #define MAZE_API __declspec(dllimport)
 #endif
 
-MAZE_API char* GetTeam();
+char* GetTeam();
 
 void SetMaze(const int** data, int width, int height);
 
-MAZE_API int** GetMaze(int& width, int& height);
+int** GetMaze(int& width, int& height);
 
 void GetNextPosition(int& xpos, int& ypos);
 
