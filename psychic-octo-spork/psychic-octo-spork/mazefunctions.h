@@ -1,21 +1,16 @@
-#ifdef MAZELIB_EXPORTS
-#define MAZE_API __declspec(dllexport)
-#else
-#define MAZE_API __declspec(dllimport)
-#endif
 
-char* GetTeam();
+__declspec(dllexport) char* GetTeam();
 
-void SetMaze(const int** data, int width, int height);
+__declspec(dllexport) void SetMaze(const int** data, int width, int height);
 
-int** GetMaze(int& width, int& height);
+__declspec(dllexport) int** GetMaze(int& width, int& height);
 
-void GetNextPosition(int& xpos, int& ypos);
+__declspec(dllexport) void GetNextPosition(int& xpos, int& ypos);
 
-void SetStart(int xpos, int ypos);
+__declspec(dllexport) void SetStart(int xpos, int ypos);
 
-void GetStart(int& xpos, int& ypos);
+__declspec(dllexport) void GetStart(int& xpos, int& ypos);
 
-void SetEnd(int xpos, int ypos);
+__declspec(dllexport) void SetEnd(int xpos, int ypos);
 
-void GetEnd(int& xpos, int& ypos);
+__declspec(dllexport) void GetEnd(int& xpos, int& ypos);

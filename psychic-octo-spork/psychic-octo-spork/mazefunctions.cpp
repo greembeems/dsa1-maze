@@ -8,7 +8,7 @@ const char* team = "Holly A & Josh T";
 // Maze Data
 int mWidth;
 int mHeight;
-int mData;
+const int** mData;
 // Start
 int sXPos;
 int sYPos;
@@ -21,27 +21,31 @@ int positions[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 int currentIndex = 0; // So that the starting indeces are 0,0
 
 // Returns string with team members' names
-char* GetTeam()
+__declspec(dllexport) char* GetTeam()
 {
     return (char*)team;
 }
 
 // Sets maze data from main program
-void SetMaze(const int** data, int width, int height)
+__declspec(dllexport) void SetMaze(const int** data, int width, int height)
 {
-    mData = **data;
+    mData = data;
     mWidth = width;
     mHeight = height;
 }
 
 // Return maze data that was passed in from SetMaze
-int** GetMaze(int& width, int& height)
+__declspec(dllexport) int** GetMaze(int& width, int& height)
 {
+    
+    width = mWidth;
+    height = mHeight;
+    
     return (int**)mData;
 }
 
 // Returns next x and y position
-void GetNextPosition(int& xpos, int& ypos)
+__declspec(dllexport) void GetNextPosition(int& xpos, int& ypos)
 {
     xpos = (int)positions[currentIndex];
     ypos = (int)positions[currentIndex];
@@ -51,7 +55,7 @@ void GetNextPosition(int& xpos, int& ypos)
 
 // Sets starting location for player
 // Save x and y value
-void SetStart(int xpos, int ypos)
+__declspec(dllexport) void SetStart(int xpos, int ypos)
 {
     sXPos = xpos;
     sYPos = ypos;
@@ -59,7 +63,7 @@ void SetStart(int xpos, int ypos)
 
 // Get starting location for player
 // Return x and y, -1 if not stored
-void GetStart(int& xpos, int& ypos)
+__declspec(dllexport) void GetStart(int& xpos, int& ypos)
 {
     if (sXPos != NULL && sYPos != NULL)
     {
@@ -74,7 +78,7 @@ void GetStart(int& xpos, int& ypos)
 }
 
 // Sets ending location for player
-void SetEnd(int xpos, int ypos)
+__declspec(dllexport) void SetEnd(int xpos, int ypos)
 {
     eXPos = xpos;
     eYPos = ypos;
@@ -82,7 +86,7 @@ void SetEnd(int xpos, int ypos)
 
 // Get ending location for player
 // Return x and y, -1 if not stored 
-void GetEnd(int& xpos, int& ypos)
+__declspec(dllexport) void GetEnd(int& xpos, int& ypos)
 {
     if (eXPos != NULL && eYPos != NULL)
     {
