@@ -165,7 +165,13 @@
     <ClCompile Include="UnitTest1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\psychic-octo-spork\mazefunctions.h" />
     <ClInclude Include="pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\psychic-octo-spork\psychic-octo-spork.vcxproj">
+      <Project>{1bf24e15-41bd-41be-9873-bc91a82aa907}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
