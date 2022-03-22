@@ -130,5 +130,5 @@ __declspec(dllexport) bool GetEnd(int& xpos, int& ypos)
 __declspec(dllexport) bool Restart() {
 
     currentIndex = 0;
-
+    return true;
 }
