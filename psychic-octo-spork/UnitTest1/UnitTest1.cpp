@@ -38,7 +38,6 @@ namespace UnitTest1
 			int finalTestData = **testData;
 
 			Assert::AreEqual(11, finalTestData);
-
 		}
 
 		TEST_METHOD(TestGetNextPosition)
@@ -53,12 +52,10 @@ namespace UnitTest1
 			
 			Assert::AreEqual(*xpos, coolxpos);
 			Assert::AreEqual(*ypos, coolypos);
-
 		}
 
 		TEST_METHOD(TestGetAndSetStart)
 		{
-
 			int xpos = 2;
 			int ypos = 3;
 
@@ -74,12 +71,10 @@ namespace UnitTest1
 
 			Assert::AreEqual(xpos, *testxpos);
 			Assert::AreEqual(ypos, *testypos);
-
 		}
 
 		TEST_METHOD(TestGetAndSetEnd)
 		{
-
 			int coolxpos = 42;
 			int coolypos = 11;
 
