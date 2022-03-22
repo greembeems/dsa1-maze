@@ -29,16 +29,13 @@ namespace UnitTest1
 
 			const int** data = &coolerdata;
 
-
-			SetMaze(data, width, height);
-
+			Assert::IsTrue(SetMaze(data, width, height));
 
 			int** testData = GetMaze(width, height);
 
 			int finalTestData = **testData;
 
 			Assert::AreEqual(11, finalTestData);
-
 		}
 
 		TEST_METHOD(TestGetNextPosition)
@@ -49,11 +46,10 @@ namespace UnitTest1
 			int* xpos = &coolxpos;
 			int* ypos = &coolypos;
 			
-			GetNextPosition(coolxpos, coolypos);
+			Assert::IsTrue(GetNextPosition(coolxpos, coolypos));
 			
 			Assert::AreEqual(*xpos, coolxpos);
 			Assert::AreEqual(*ypos, coolypos);
-
 		}
 
 		TEST_METHOD(TestGetAndSetStart)
@@ -62,7 +58,7 @@ namespace UnitTest1
 			int xpos = 2;
 			int ypos = 3;
 
-			SetStart(xpos, ypos);
+			Assert::IsTrue(SetStart(xpos, ypos));
 
 			int uncooltestxpos = 10;
 			int uncooltestypos = 10;
@@ -70,11 +66,10 @@ namespace UnitTest1
 			int* testxpos = &uncooltestxpos;
 			int* testypos = &uncooltestypos;
 
-			GetStart(*testxpos, *testypos);
+			Assert::IsTrue(GetStart(*testxpos, *testypos));
 
 			Assert::AreEqual(xpos, *testxpos);
 			Assert::AreEqual(ypos, *testypos);
-
 		}
 
 		TEST_METHOD(TestGetAndSetEnd)
@@ -83,7 +78,7 @@ namespace UnitTest1
 			int coolxpos = 42;
 			int coolypos = 11;
 
-			SetEnd(coolxpos, coolypos);
+			Assert::IsTrue(SetEnd(coolxpos, coolypos));
 
 			int testEndXpos = 69;
 			int testEndYpos = 420;
@@ -91,13 +86,10 @@ namespace UnitTest1
 			int* xpos = &testEndXpos;
 			int* ypos = &testEndYpos;
 
-			GetEnd(*xpos, *ypos);
+			Assert::IsTrue(GetEnd(*xpos, *ypos));
 
 			Assert::AreEqual(coolxpos, *xpos);
 			Assert::AreEqual(coolypos, *ypos);
-
-
 		}
-
 	};
 }
