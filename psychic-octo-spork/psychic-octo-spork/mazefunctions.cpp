@@ -8,7 +8,7 @@ const char* team = "Holly A & Josh T";
 // Maze Data
 int mWidth;
 int mHeight;
-const int** mData;
+const int** mData = nullptr;
 // Start
 int sXPos;
 int sYPos;
@@ -27,11 +27,18 @@ __declspec(dllexport) char* GetTeam()
 }
 
 // Sets maze data from main program
-__declspec(dllexport) void SetMaze(const int** data, int width, int height)
+__declspec(dllexport) bool SetMaze(const int** data, int width, int height)
 {
-    mData = data;
-    mWidth = width;
-    mHeight = height;
+
+    if (width >= 1 || height >= 1) {
+        mData = data;
+        mWidth = width;
+        mHeight = height;
+        return true;
+    }
+    
+    return false;
+    
 }
 
 // Return maze data that was passed in from SetMaze
@@ -40,62 +47,88 @@ __declspec(dllexport) int** GetMaze(int& width, int& height)
     
     width = mWidth;
     height = mHeight;
+
+    if (mData == nullptr) {
+        return nullptr;
+    }
     
     return (int**)mData;
 }
 
 // Returns next x and y position
-__declspec(dllexport) void GetNextPosition(int& xpos, int& ypos)
+__declspec(dllexport) bool GetNextPosition(int& xpos, int& ypos)
 {
     xpos = (int)positions[currentIndex];
     ypos = (int)positions[currentIndex];
-
     currentIndex++;
+
+    if (positions[currentIndex] != NULL) {
+        return true;
+    }
+    
+    return false;
 }
 
 // Sets starting location for player
 // Save x and y value
-__declspec(dllexport) void SetStart(int xpos, int ypos)
+__declspec(dllexport) bool SetStart(int xpos, int ypos)
 {
+
     sXPos = xpos;
     sYPos = ypos;
+
+    if (sXPos >= 0 && sXPos <= mWidth && sYPos >= 0 && sYPos <= mHeight) {
+        return true;
+    }
+
+    return false;
+
 }
 
 // Get starting location for player
 // Return x and y, -1 if not stored
-__declspec(dllexport) void GetStart(int& xpos, int& ypos)
+__declspec(dllexport) bool GetStart(int& xpos, int& ypos)
 {
-    if (sXPos != NULL && sYPos != NULL)
+    if (sXPos >= 0 && sXPos <= mWidth && sYPos >= 0 && sYPos <= mHeight)
     {
         xpos = sXPos;
         ypos = sYPos;
+        return true;
     }
-    else
-    {
-        xpos = -1;
-        ypos = -1;
-    }
+    
+    return false;
 }
 
 // Sets ending location for player
-__declspec(dllexport) void SetEnd(int xpos, int ypos)
+__declspec(dllexport) bool SetEnd(int xpos, int ypos)
 {
-    eXPos = xpos;
-    eYPos = ypos;
+
+    if (xpos >= 0 && xpos <= mWidth && ypos >= 0 && ypos <= mHeight) {
+        eXPos = xpos;
+        eYPos = ypos;
+        return true;
+    }
+    return false;
+
 }
 
 // Get ending location for player
 // Return x and y, -1 if not stored 
-__declspec(dllexport) void GetEnd(int& xpos, int& ypos)
+__declspec(dllexport) bool GetEnd(int& xpos, int& ypos)
 {
-    if (eXPos != NULL && eYPos != NULL)
+    if (eXPos >= 0 && eXPos <= mWidth && eYPos >= 0 && eYPos <= mHeight)
     {
         xpos = eXPos;
         ypos = eYPos;
+        return true;
     }
-    else
-    {
-        xpos = -1;
-        ypos = -1;
-    }
+    
+    return false;
+
+}
+
+__declspec(dllexport) bool Restart() {
+
+    currentIndex = 0;
+
 }
