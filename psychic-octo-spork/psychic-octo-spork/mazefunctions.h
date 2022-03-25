@@ -1,3 +1,4 @@
+extern const int** mData = nullptr;
 
 __declspec(dllexport) char* GetTeam();
 
