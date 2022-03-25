@@ -14,3 +14,5 @@ __declspec(dllexport) bool GetStart(int& xpos, int& ypos);
 __declspec(dllexport) bool SetEnd(int xpos, int ypos);
 
 __declspec(dllexport) bool GetEnd(int& xpos, int& ypos);
+
+__declspec(dllexport) bool Restart();
