@@ -14,13 +14,16 @@ class Graph
 	int totalV;
 
 	// 2d vector of vertices
-	vector<vector<Vertex>> vertices; //https://stackoverflow.com/questions/1946830/multidimensional-variable-size-array-in-c Just in case we want a reference later
+	vector<vector<Vertex>> vertices; //https://stackoverflow.com/questions/1946830/multidimensional-variable-size-array-in-c Just in case we want a reference later (Khaled Alshaya)
 
-	// ??
+	// Vertex generated from data
 	Vertex* generatedVertex;
 
-	// Adjacency of vertices
-	const int** adjacency;
+	// Adjacency matrix
+	vector<vector<int>> adjacency;
+
+	// Data
+	const int** data;
 
 	// Open and closed list of vertices for pathfinding
 	list<Vertex*> open;

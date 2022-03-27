@@ -8,11 +8,13 @@ using namespace std;
 		//Sets all the required variables
 		height = h;
 		width = w;
-		adjacency = mData;
+		data = mData;
 
 		totalV = height * width;
 
 		generatedVertex = nullptr;
+
+		Setup();
 	}
 
 	//Generates the Vertices list
@@ -27,7 +29,7 @@ using namespace std;
 			for (int i = 0; i < width; i++)
 			{
 				// If not a wall, add to matrix
-				if (adjacency[i][j] == 0) {
+				if (data[i][j] == 0) {
 					generatedVertex = new Vertex(i, j);
 					// Push to the back of the list of vertices
 					row.push_back(*generatedVertex);
@@ -36,6 +38,18 @@ using namespace std;
 
 			// Push into the 2d vector of vertices
 			vertices.push_back(row);
+		}
+
+		// Set up adjacency matrix
+		for (int j = 0; j < totalV; j++) {
+			vector<int> row;
+
+			for (int i = 0; i < totalV; i++)
+			{
+
+			}
+
+			adjacency.push_back(row);
 		}
 	}
 
