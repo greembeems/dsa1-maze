@@ -12,9 +12,7 @@ using namespace std;
 		height = h;
 		width = w;
 		adjacency = mData;
-		//This one is giving me pain and a lot of errrors so good luck :')
 		generatedVertex = nullptr;
-		
 	}
 
 	//Generates the Vertices list
@@ -22,17 +20,22 @@ using namespace std;
 	{
 		int j = 0;
 		//Generates the list of vertices, but we might change it to a 2d array of vertices
+		// We are changing this to a 2D array for our own brains
 		for (int i = 0; i < height * width; i++) {
 
+			// A wall
 			if (adjacency[i][j] == 1) {
 				generatedVertex = new Vertex(i, j, true);
+				// Push to the back of the list of vertices
 				Graph::vertices.push_back(*generatedVertex);
-			
 			}
+			// Very much not a wall
 			else {
 				generatedVertex = new Vertex(i, j, false);
+				// Push to the back of the list of vertices
 				Graph::vertices.push_back(*generatedVertex);
 			}
+
 			j++;
 		}
 
