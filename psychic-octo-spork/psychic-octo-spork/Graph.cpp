@@ -5,33 +5,37 @@
 #include <list>
 using namespace std;
 
-class Graph {
-	// Fields
-	vector<Vertex> vertices;
-
-	int height;
-	int width;
-
-	// Adjacency List/Matrix depending on what we decide to use
-	const int** adjacency;
-
-	// Open list - all considered vertices
-	list<Vertex> open;
-	// Closed list - unconsidered vertices
-	list<Vertex> closed;
-
-	// Constructors
-public:
-	Graph(const int** mData, int h, int w)
+	// Constructor
+	Graph::Graph(const int** mData, int h, int w)
 	{
+		//Sets all the required variables
 		height = h;
 		width = w;
 		adjacency = mData;
+		//This one is giving me pain and a lot of errrors so good luck :')
+		generatedVertex = nullptr;
+		
 	}
 
-	void Setup(int startX, int startY, int endX, int endY)
+	//Generates the Vertices list
+	void Graph::Setup()
 	{
-		
+		int j = 0;
+		//Generates the list of vertices, but we might change it to a 2d array of vertices
+		for (int i = 0; i < height * width; i++) {
+
+			if (adjacency[i][j] == 1) {
+				generatedVertex = new Vertex(i, j, true);
+				Graph::vertices.push_back(*generatedVertex);
+			
+			}
+			else {
+				generatedVertex = new Vertex(i, j, false);
+				Graph::vertices.push_back(*generatedVertex);
+			}
+			j++;
+		}
+
 	}
 
 	// Methods
@@ -39,8 +43,9 @@ public:
 	/// <summary>
 	/// A* pathfinding method. Only call once
 	/// </summary>
-	void aStar()
+	void Graph::aStar(int startX, int startY, int endX, int endY)
 	{
+
 		// Add starting vertex to closed list
 		closed.push_front(vertices[0]);
 
@@ -73,4 +78,3 @@ public:
 
 		// done!
 	}
-};

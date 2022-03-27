@@ -2,6 +2,8 @@
 
 #include "pch.h"
 #include "mazefunctions.h"
+#include "Vertex.h"
+#include "Graph.h"
 
 const char* team = "Holly A & Josh T";
 
@@ -121,3 +123,4 @@ __declspec(dllexport) bool Restart() {
     currentIndex = 0;
     return true;
 }
+

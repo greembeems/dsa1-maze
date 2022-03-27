@@ -1,54 +1,37 @@
 #include "pch.h"
 #include "Vertex.h"
 
-class Vertex
-{
-	// Fields
-	int xPos;
-	int yPos;
-
-	// Estimated cost from current square to destination
-	int heuristic;
-
-	// How many tiles away from starting position it is
-	int lowestCost = 0;
-
-	// If the tile has been visited
-	bool visited;
-
-	Vertex* parent;
-
 	// Constructor
-public:
-	Vertex(int x, int y, Vertex& parentVertex, int h)
+
+	Vertex::Vertex(int x, int y, bool isOne)
 	{
+		visited = false;
 		xPos = x;
 		yPos = y;
-		parent = &parentVertex;
-
-		heuristic = h;
+		parent = nullptr;
+		isWall = isOne;
+		heuristic = 0;
 	}
 
 	// Methods
 
-	void UpdateParent(Vertex& newParent)
+	void Vertex::UpdateParent(Vertex& newParent)
 	{
 		parent = &newParent;
 	}
 
-	void UpdateVisited()
+	void Vertex::UpdateVisited()
 	{
 		visited = true;
 	}
 
-	int LowestCost()
+	int Vertex::LowestCost()
 	{
 		return lowestCost;
 	}
 
 	// Stores tile's new lowestCost by taking from parent tile and adding 1
-	void UpdateLowestCost()
+	void Vertex::UpdateLowestCost()
 	{
 		lowestCost = parent->LowestCost() + 1;
 	}
-};
