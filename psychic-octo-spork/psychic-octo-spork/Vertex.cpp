@@ -2,7 +2,7 @@
 #include "Vertex.h"
 
 	// Constructor
-	Vertex::Vertex(int x, int y, bool isOne)
+	Vertex::Vertex(int x, int y)
 	{
 		visited = false;
 
@@ -12,9 +12,6 @@
 
 		// Parent vertex, starts null until a parent is found
 		parent = nullptr;
-
-		// If this vertex is a wall
-		isWall = isOne;
 
 		// Heuristic value (which is calculated how because hh)
 		heuristic = 0;

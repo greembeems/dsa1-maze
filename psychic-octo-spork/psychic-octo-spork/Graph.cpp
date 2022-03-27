@@ -18,25 +18,24 @@ using namespace std;
 	//Generates the Vertices list
 	void Graph::Setup()
 	{
-		int j = 0;
-		//Generates the list of vertices, but we might change it to a 2d array of vertices
-		// We are changing this to a 2D array for our own brains
-		for (int i = 0; i < height * width; i++) {
+		//Generates the 2d vector of vertices
+		// Have to go row by row and then push to start next row
+		for (int j = 0; j < height; j++) {
+			// 1 row of vertices
+			vector<Vertex> row;
 
-			// A wall
-			if (adjacency[i][j] == 1) {
-				generatedVertex = new Vertex(i, j, true);
-				// Push to the back of the list of vertices
-				vertices.push_back(*generatedVertex);
-			}
-			// Very much not a wall
-			else {
-				generatedVertex = new Vertex(i, j, false);
-				// Push to the back of the list of vertices
-				vertices.push_back(*generatedVertex);
+			for (int i = 0; i < width; i++)
+			{
+				// If not a wall, add to matrix
+				if (adjacency[i][j] == 0) {
+					generatedVertex = new Vertex(i, j);
+					// Push to the back of the list of vertices
+					row.push_back(*generatedVertex);
+				}
 			}
 
-			j++;
+			// Push into the 2d vector of vertices
+			vertices.push_back(row);
 		}
 	}
 
@@ -49,7 +48,7 @@ using namespace std;
 	{
 
 		// Add starting vertex to closed list
-		closed.push_front(vertices[0]);
+		closed.push_front(&vertices[0][0]);
 
 		// Add all adjacent tiles to open list
 		for (int i = 1; i < 4; i++)

@@ -2,6 +2,7 @@
 #include <vector>
 #include <list>
 #include "Vertex.h"
+using namespace std;
 
 class Graph
 {
@@ -12,8 +13,8 @@ class Graph
 	// Total number of vertices
 	int totalV;
 
-	// Vector of vertices
-	vector<Vertex> vertices;
+	// 2d vector of vertices
+	vector<vector<Vertex>> vertices; //https://stackoverflow.com/questions/1946830/multidimensional-variable-size-array-in-c Just in case we want a reference later
 
 	// ??
 	Vertex* generatedVertex;
@@ -22,8 +23,8 @@ class Graph
 	const int** adjacency;
 
 	// Open and closed list of vertices for pathfinding
-	list<Vertex> open;
-	list<Vertex> closed;
+	list<Vertex*> open;
+	list<Vertex*> closed;
 
 	// Methods
 public:

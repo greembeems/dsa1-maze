@@ -4,13 +4,12 @@ class Vertex
 	// Fields
 	int xPos;
 	int yPos;
-	bool isWall;
 
 	// Estimated cost from current square to destination
 	int heuristic;
 
 	// How many tiles away from starting position it is
-	int lowestCost = 0;
+	int lowestCost = MAXINT;
 
 	// If the tile has been visited
 	bool visited;
@@ -18,7 +17,7 @@ class Vertex
 
 public:
 	// Constructor
-	Vertex(int x, int y, bool isOne);
+	Vertex(int x, int y);
 
 	// Methods
 	void UpdateParent(Vertex& newParent);
