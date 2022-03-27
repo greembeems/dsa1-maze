@@ -28,6 +28,10 @@
 		parent = &newParent;
 	}
 
+	int Vertex::GenerateHeuristic(int totalDistance) {
+		heuristic = totalDistance;
+	}
+
 	/// <summary>
 	/// Updates the visited boolean value
 	/// </summary>
@@ -40,15 +44,15 @@
 	/// Gets the lowest cost value for the vertex
 	/// </summary>
 	/// <returns>Lowest cost value</returns>
-	int Vertex::LowestCost()
+	int Vertex::ReturnG()
 	{
-		return lowestCost;
+		return g;
 	}
 
 	/// <summary>
 	/// Stores tile's new lowestCost by taking from parent tile and adding 1
 	/// </summary>
-	void Vertex::UpdateLowestCost()
+	void Vertex::UpdateG()
 	{
-		lowestCost = parent->LowestCost() + 1;
+		g = parent->ReturnG() + 1;
 	}

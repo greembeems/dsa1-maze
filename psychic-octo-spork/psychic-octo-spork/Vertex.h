@@ -1,21 +1,21 @@
 #pragma once
+
 class Vertex
 {
 	// Fields
-	int xPos;
-	int yPos;
-
-	// Estimated cost from current square to destination
-	int heuristic;
 
 	// How many tiles away from starting position it is
-	int lowestCost = MAXINT;
+	int g = MAXINT;
 
 	// If the tile has been visited
 	bool visited;
 	Vertex* parent;
 
 public:
+
+	int xPos;
+	int yPos;
+	int heuristic; // Estimated cost from current square to destination
 	// Constructor
 	Vertex(int x, int y);
 
@@ -24,8 +24,10 @@ public:
 
 	void UpdateVisited();
 
-	int LowestCost();
+	int GenerateHeuristic(int totalDistance);
+
+	int ReturnG();
 
 	// Stores tile's new lowestCost by taking from parent tile and adding 1
-	void UpdateLowestCost();
+	void UpdateG();
 };

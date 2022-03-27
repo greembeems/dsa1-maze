@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <list>
+#include <cmath>
 #include "Vertex.h"
 using namespace std;
 
