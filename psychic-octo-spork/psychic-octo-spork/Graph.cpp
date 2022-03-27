@@ -1,8 +1,5 @@
 #include "pch.h"
 #include "Graph.h"
-#include "Vertex.h"
-#include <vector>
-#include <list>
 using namespace std;
 
 	// Constructor
@@ -12,6 +9,9 @@ using namespace std;
 		height = h;
 		width = w;
 		adjacency = mData;
+
+		totalV = height * width;
+
 		generatedVertex = nullptr;
 	}
 
@@ -27,18 +27,17 @@ using namespace std;
 			if (adjacency[i][j] == 1) {
 				generatedVertex = new Vertex(i, j, true);
 				// Push to the back of the list of vertices
-				Graph::vertices.push_back(*generatedVertex);
+				vertices.push_back(*generatedVertex);
 			}
 			// Very much not a wall
 			else {
 				generatedVertex = new Vertex(i, j, false);
 				// Push to the back of the list of vertices
-				Graph::vertices.push_back(*generatedVertex);
+				vertices.push_back(*generatedVertex);
 			}
 
 			j++;
 		}
-
 	}
 
 	// Methods

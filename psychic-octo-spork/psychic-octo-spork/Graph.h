@@ -1,4 +1,8 @@
 #pragma once
+#include <vector>
+#include <list>
+#include "Vertex.h"
+
 class Graph
 {
 	// Dimensions of the graph
@@ -6,13 +10,13 @@ class Graph
 	int width;
 
 	// Total number of vertices
-	int totalV = height * width;
+	int totalV;
 
 	// Vector of vertices
 	vector<Vertex> vertices;
 
 	// ??
-	Vertex* generatedVertex = nullptr;
+	Vertex* generatedVertex;
 
 	// Adjacency of vertices
 	const int** adjacency;
