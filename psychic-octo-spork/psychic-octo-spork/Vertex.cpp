@@ -10,6 +10,8 @@
 		xPos = x;
 		yPos = y;
 
+		f = g + heuristic;
+
 		// Parent vertex, starts null until a parent is found
 		parent = nullptr;
 
@@ -28,7 +30,7 @@
 		parent = &newParent;
 	}
 
-	int Vertex::GenerateHeuristic(int totalDistance) {
+	void Vertex::GenerateHeuristic(int totalDistance) {
 		heuristic = totalDistance;
 	}
 
@@ -55,4 +57,8 @@
 	void Vertex::UpdateG()
 	{
 		g = parent->ReturnG() + 1;
+	}
+
+	void Vertex::UpdateF() {
+		f = g + heuristic;
 	}

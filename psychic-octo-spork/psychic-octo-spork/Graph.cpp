@@ -107,6 +107,8 @@ using namespace std;
 		// Add starting vertex to closed list
 		closed.push_front(&vertices[startX][startY]);
 
+		vertices[startX][startY].g = 0;
+
 		// Add all adjacent tiles to open list
 		if (adjacency[startX + 1][startY] == 1) {
 			open.push_front(&vertices[startX + 1][startY]);
@@ -140,11 +142,13 @@ using namespace std;
 		}
 
 		// Find shortest path
-		
-		while (true) {
-		// Get square on open list with lowest score, s
-			Vertex s = *open.front();
+		bool checking = true;
 
+		while (checking) {
+		// Get the square on the open list with lowest score, s
+			Vertex s = *open.front();
+			
+			// if tie in lowest score, continue going with most recent tile
 			for(auto v: open)
 			{
 				if (s.ReturnG() + s.heuristic > v->ReturnG() + v->heuristic)
@@ -153,29 +157,184 @@ using namespace std;
 				}
 			}
 
-		// Remove s from open list & add to closed
-
+			// Remove s from open list & add to closed
 			open.remove(&s);
 			closed.push_front(&s);
 
-		// For each square, t, in s's valid adjacent tiles
+			// For each square, t, in s's valid adjacent tiles
+			if (adjacency[s.xPos + 1][s.yPos] != NULL) {
 
+				// if end square is on open list, add to close list
+				if (s.xPos + 1 == endX && s.yPos == endY) {
 
-		// if t is in closed list, ignore
+					closed.push_front(&vertices[s.xPos + 1][s.yPos]);
+					vertices[s.xPos + 1][s.yPos].UpdateParent(s);
+					checking = false;
+					break;
+				}
 
-		// if t is not in open list, add and compute score
+				list<Vertex*>::iterator it;
 
-		// if t is in open list, check if g + h is lower if use current generated path to get there
-			// if f is lower, update that tile's score & update parents
+				it = find(closed.begin(), closed.end(), vertices[s.xPos + 1][s.yPos]);
 
-		// if tie in lowest score, continue going with most recent tile
+				if (it != closed.end()) { //In closed list
+					// if t is in closed list, ignore it
+					break;
+				}
+				else { //Not in closed list
+					// if t is not in open list, add and compute score
+					list<Vertex*>::iterator op;
+					op = find(open.begin(), open.end(), vertices[s.xPos + 1][s.yPos]);
 
-		// if end square is on open list, add to close list
+					//Iterator returns last if the vertex is not found
+					if (op == open.end()) { //Not in open
+						open.push_front(&vertices[s.xPos + 1][s.yPos]);
+						vertices[s.xPos + 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
+						vertices[s.xPos + 1][s.yPos].UpdateG();
+					}
+					else { // In open
+						//Check if F score is lower on current path
+						if (vertices[s.xPos + 1][s.yPos].f >= (vertices[s.xPos + 1][s.yPos].ReturnG() + vertices[s.xPos + 1][s.yPos].heuristic)) {
+							//Update score and parent
+							vertices[s.xPos + 1][s.yPos].UpdateF();
+							vertices[s.xPos + 1][s.yPos].UpdateParent(s);
+						}
+					}
+				}
+
+			}
+
+			if (adjacency[s.xPos - 1][s.yPos] != NULL) {
+
+				// if end square is on open list, add to close list
+				if (s.xPos - 1 == endX && s.yPos == endY) {
+
+					closed.push_front(&vertices[s.xPos - 1][s.yPos]);
+					vertices[s.xPos - 1][s.yPos].UpdateParent(s);
+					checking = false;
+					break;
+				}
+
+				list<Vertex*>::iterator it;
+
+				it = find(closed.begin(), closed.end(), vertices[s.xPos - 1][s.yPos]);
+
+				if (it != closed.end()) { //In closed list
+					// if t is in closed list, ignore it
+					break;
+				}
+				else { //Not in closed list
+					// if t is not in open list, add and compute score
+					list<Vertex*>::iterator op;
+					op = find(open.begin(), open.end(), vertices[s.xPos - 1][s.yPos]);
+
+					//Iterator returns last if the vertex is not found
+					if (op == open.end()) { //Not in open
+						open.push_front(&vertices[s.xPos - 1][s.yPos]);
+						vertices[s.xPos - 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
+						vertices[s.xPos - 1][s.yPos].UpdateG();
+					}
+					else { // In open
+						//Check if F score is lower on current path
+						if (vertices[s.xPos - 1][s.yPos].f >= (vertices[s.xPos - 1][s.yPos].ReturnG() + vertices[s.xPos - 1][s.yPos].heuristic)) {
+							//Update score and parent
+							vertices[s.xPos - 1][s.yPos].UpdateF();
+							vertices[s.xPos - 1][s.yPos].UpdateParent(s);
+						}
+					}
+				}
+
+			}
+			
+			if (adjacency[s.xPos][s.yPos + 1] != NULL) {
+
+				// if end square is on open list, add to close list
+				if (s.xPos == endX && s.yPos + 1 == endY) {
+
+					closed.push_front(&vertices[s.xPos][s.yPos + 1]);
+					vertices[s.xPos][s.yPos + 1].UpdateParent(s);
+					checking = false;
+					break;
+				}
+
+				list<Vertex*>::iterator it;
+
+				it = find(closed.begin(), closed.end(), vertices[s.xPos][s.yPos + 1]);
+
+				if (it != closed.end()) { //In closed list
+					// if t is in closed list, ignore it
+					break;
+				}
+				else { //Not in closed list
+					// if t is not in open list, add and compute score
+					list<Vertex*>::iterator op;
+					op = find(open.begin(), open.end(), vertices[s.xPos][s.yPos + 1]);
+
+					//Iterator returns last if the vertex is not found
+					if (op == open.end()) { //Not in open
+						open.push_front(&vertices[s.xPos][s.yPos + 1]);
+						vertices[s.xPos][s.yPos + 1].UpdateParent(vertices[s.xPos][s.yPos]);
+						vertices[s.xPos][s.yPos + 1].UpdateG();
+					}
+					else { // In open
+						//Check if F score is lower on current path
+						if (vertices[s.xPos][s.yPos + 1].f >= (vertices[s.xPos][s.yPos + 1].ReturnG() + vertices[s.xPos][s.yPos + 1].heuristic)) {
+							//Update score and parent
+							vertices[s.xPos][s.yPos + 1].UpdateF();
+							vertices[s.xPos][s.yPos + 1].UpdateParent(s);
+						}
+					}
+				}
+
+			}
+			
+			if (adjacency[s.xPos][s.yPos - 1] != NULL) {
+
+				// if end square is on open list, add to close list
+				if (s.xPos == endX && s.yPos - 1 == endY) {
+
+					closed.push_front(&vertices[s.xPos][s.yPos - 1]);
+					vertices[s.xPos][s.yPos - 1].UpdateParent(s);
+					checking = false;
+					break;
+				}
+
+				list<Vertex*>::iterator it;
+
+				it = find(closed.begin(), closed.end(), vertices[s.xPos][s.yPos - 1]);
+
+				if (it != closed.end()) { //In closed list
+					// if t is in closed list, ignore it
+					break;
+				}
+				else { //Not in closed list
+					// if t is not in open list, add and compute score
+					list<Vertex*>::iterator op;
+					op = find(open.begin(), open.end(), vertices[s.xPos][s.yPos - 1]);
+
+					//Iterator returns last if the vertex is not found
+					if (op == open.end()) { //Not in open
+						open.push_front(&vertices[s.xPos][s.yPos - 1]);
+						vertices[s.xPos][s.yPos - 1].UpdateParent(vertices[s.xPos][s.yPos]);
+						vertices[s.xPos][s.yPos - 1].UpdateG();
+					}
+					else { // In open
+						//Check if F score is lower on current path
+						if (vertices[s.xPos][s.yPos - 1].f >= (vertices[s.xPos][s.yPos - 1].ReturnG() + vertices[s.xPos][s.yPos - 1].heuristic)) {
+							//Update score and parent
+							vertices[s.xPos][s.yPos - 1].UpdateF();
+							vertices[s.xPos][s.yPos - 1].UpdateParent(s);
+						}
+					}
+				}
+
+			}
+
+		}
+
 
 		// go backwards from end tile parent by parent to learn exact shortest path
 
 		// done!
-		}
-
 		
 	}
