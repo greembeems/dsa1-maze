@@ -93,15 +93,13 @@ using namespace std;
 		}
 
 	}
-			
-
 
 	// Methods
 
 	/// <summary>
 	/// A* pathfinding method. Only call once
 	/// </summary>
-	void Graph::aStar(int startX, int startY, int endX, int endY)
+	list<Vertex*>* Graph::aStar(int startX, int startY, int endX, int endY)
 	{
 
 		// Add starting vertex to closed list
@@ -173,21 +171,36 @@ using namespace std;
 					break;
 				}
 
-				list<Vertex*>::iterator it;
+				bool inClosed = false;
+				for (auto v : closed)
+				{
+					if (v->xPos == (s.xPos + 1) && v->yPos == s.yPos)
+					{
+						inClosed = true;
+						break;
+					}
+				}
 
-				it = find(closed.begin(), closed.end(), vertices[s.xPos + 1][s.yPos]);
-
-				if (it != closed.end()) { //In closed list
+				if (inClosed)
+				{
+					//In closed list
 					// if t is in closed list, ignore it
-					break;
 				}
 				else { //Not in closed list
 					// if t is not in open list, add and compute score
-					list<Vertex*>::iterator op;
-					op = find(open.begin(), open.end(), vertices[s.xPos + 1][s.yPos]);
+
+					bool inOpen = false;
+					for (auto v : open)
+					{
+						if (v->xPos == (s.xPos + 1) && v->yPos == s.yPos)
+						{
+							inOpen = true;
+							break;
+						}
+					}
 
 					//Iterator returns last if the vertex is not found
-					if (op == open.end()) { //Not in open
+					if (!inOpen) { //Not in open
 						open.push_front(&vertices[s.xPos + 1][s.yPos]);
 						vertices[s.xPos + 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
 						vertices[s.xPos + 1][s.yPos].UpdateG();
@@ -215,21 +228,36 @@ using namespace std;
 					break;
 				}
 
-				list<Vertex*>::iterator it;
+				bool inClosed = false;
+				for (auto v : closed)
+				{
+					if (v->xPos == (s.xPos + 1) && v->yPos == s.yPos)
+					{
+						inClosed = true;
+						break;
+					}
+				}
 
-				it = find(closed.begin(), closed.end(), vertices[s.xPos - 1][s.yPos]);
-
-				if (it != closed.end()) { //In closed list
+				if (inClosed)
+				{
+					//In closed list
 					// if t is in closed list, ignore it
-					break;
 				}
 				else { //Not in closed list
 					// if t is not in open list, add and compute score
-					list<Vertex*>::iterator op;
-					op = find(open.begin(), open.end(), vertices[s.xPos - 1][s.yPos]);
+
+					bool inOpen = false;
+					for (auto v : open)
+					{
+						if (v->xPos == (s.xPos - 1) && v->yPos == s.yPos)
+						{
+							inOpen = true;
+							break;
+						}
+					}
 
 					//Iterator returns last if the vertex is not found
-					if (op == open.end()) { //Not in open
+					if (!inOpen) { //Not in open
 						open.push_front(&vertices[s.xPos - 1][s.yPos]);
 						vertices[s.xPos - 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
 						vertices[s.xPos - 1][s.yPos].UpdateG();
@@ -242,6 +270,7 @@ using namespace std;
 							vertices[s.xPos - 1][s.yPos].UpdateParent(s);
 						}
 					}
+				
 				}
 
 			}
@@ -257,21 +286,36 @@ using namespace std;
 					break;
 				}
 
-				list<Vertex*>::iterator it;
+				bool inClosed = false;
+				for (auto v : closed)
+				{
+					if (v->xPos == s.xPos && v->yPos == (s.yPos + 1))
+					{
+						inClosed = true;
+						break;
+					}
+				}
 
-				it = find(closed.begin(), closed.end(), vertices[s.xPos][s.yPos + 1]);
-
-				if (it != closed.end()) { //In closed list
+				if (inClosed)
+				{
+					//In closed list
 					// if t is in closed list, ignore it
-					break;
 				}
 				else { //Not in closed list
 					// if t is not in open list, add and compute score
-					list<Vertex*>::iterator op;
-					op = find(open.begin(), open.end(), vertices[s.xPos][s.yPos + 1]);
+
+					bool inOpen = false;
+					for (auto v : open)
+					{
+						if (v->xPos == s.xPos && v->yPos == (s.yPos + 1))
+						{
+							inOpen = true;
+							break;
+						}
+					}
 
 					//Iterator returns last if the vertex is not found
-					if (op == open.end()) { //Not in open
+					if (!inOpen) { //Not in open
 						open.push_front(&vertices[s.xPos][s.yPos + 1]);
 						vertices[s.xPos][s.yPos + 1].UpdateParent(vertices[s.xPos][s.yPos]);
 						vertices[s.xPos][s.yPos + 1].UpdateG();
@@ -299,21 +343,36 @@ using namespace std;
 					break;
 				}
 
-				list<Vertex*>::iterator it;
+				bool inClosed = false;
+				for (auto v : closed)
+				{
+					if (v->xPos == s.xPos && v->yPos == (s.yPos - 1))
+					{
+						inClosed = true;
+						break;
+					}
+				}
 
-				it = find(closed.begin(), closed.end(), vertices[s.xPos][s.yPos - 1]);
-
-				if (it != closed.end()) { //In closed list
+				if (inClosed)
+				{
+					//In closed list
 					// if t is in closed list, ignore it
-					break;
 				}
 				else { //Not in closed list
 					// if t is not in open list, add and compute score
-					list<Vertex*>::iterator op;
-					op = find(open.begin(), open.end(), vertices[s.xPos][s.yPos - 1]);
+
+					bool inOpen = false;
+					for (auto v : open)
+					{
+						if (v->xPos == s.xPos && v->yPos == (s.yPos - 1))
+						{
+							inOpen = true;
+							break;
+						}
+					}
 
 					//Iterator returns last if the vertex is not found
-					if (op == open.end()) { //Not in open
+					if (!inOpen) { //Not in open
 						open.push_front(&vertices[s.xPos][s.yPos - 1]);
 						vertices[s.xPos][s.yPos - 1].UpdateParent(vertices[s.xPos][s.yPos]);
 						vertices[s.xPos][s.yPos - 1].UpdateG();
@@ -332,9 +391,14 @@ using namespace std;
 
 		}
 
-
 		// go backwards from end tile parent by parent to learn exact shortest path
+		Vertex* currentVert = &vertices[endX][endY];
+		while (currentVert->ReturnParent() != nullptr)
+		{
+			shortestPath.push_front(currentVert);
+			currentVert = currentVert->ReturnParent();
+		}
 
 		// done!
-		
+		return &shortestPath;
 	}

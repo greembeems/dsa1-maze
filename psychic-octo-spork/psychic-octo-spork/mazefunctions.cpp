@@ -18,7 +18,13 @@ int sYPos;
 int eXPos;
 int eYPos;
 
-int currentIndex = 0; // So that the starting indeces are 0,0
+int currentIndex = 0;
+
+int length = 0;
+
+list<Vertex*>* shortestPath;
+
+Graph* aGraph;
 
 // Returns string with team members' names
 __declspec(dllexport) char* GetTeam()
@@ -55,11 +61,23 @@ __declspec(dllexport) int** GetMaze(int& width, int& height)
 // Returns next x and y position
 __declspec(dllexport) bool GetNextPosition(int& xpos, int& ypos)
 {
-    xpos = (int)mData[currentIndex];
-    ypos = (int)mData[currentIndex];
-    currentIndex++;
+    // Calls A Star for first instance only
+    if (currentIndex == 0)
+    {
+        aGraph = new Graph(mData, mHeight, mWidth);
+        shortestPath = aGraph->aStar(sXPos, sYPos, eXPos, eYPos);
+        shortestPath->reverse();
+    }
 
-    if (mData[currentIndex] != NULL) {
+    Vertex vert = *shortestPath->back();
+
+    if (&shortestPath[currentIndex] != NULL) {
+        xpos = vert.xPos;
+        ypos = vert.yPos;
+
+        shortestPath->pop_back();
+
+        currentIndex++;
         return true;
     }
     
@@ -102,6 +120,7 @@ __declspec(dllexport) bool SetEnd(int xpos, int ypos)
         eYPos = ypos;
         return true;
     }
+
     return false;
 }
 

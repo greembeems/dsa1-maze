@@ -23,6 +23,8 @@ class Graph
 	// Adjacency matrix
 	vector<vector<int>> adjacency;
 
+	list<Vertex*> shortestPath;
+
 	// Data
 	const int** data;
 
@@ -32,7 +34,7 @@ class Graph
 
 	// Methods
 public:
-	void aStar(int startX, int startY, int endX, int endY);
+	list<Vertex*>* aStar(int startX, int startY, int endX, int endY);
 
 	Graph(const int** mData, int h, int w);
 

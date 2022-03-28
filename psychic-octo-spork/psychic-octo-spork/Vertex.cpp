@@ -62,3 +62,8 @@
 	void Vertex::UpdateF() {
 		f = g + heuristic;
 	}
+
+	Vertex* Vertex::ReturnParent()
+	{
+		return parent;
+	}

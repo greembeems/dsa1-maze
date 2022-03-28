@@ -4,9 +4,6 @@ class Vertex
 {
 	// Fields
 
-	// How many tiles away from starting position it is
-	
-
 	// If the tile has been visited
 	bool visited;
 	Vertex* parent;
@@ -29,6 +26,8 @@ public:
 	void GenerateHeuristic(int totalDistance);
 
 	int ReturnG();
+
+	Vertex* ReturnParent();
 
 	void UpdateF();
 
