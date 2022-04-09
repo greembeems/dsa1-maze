@@ -41,51 +41,224 @@ using namespace std;
 		}
 
 		// Set up adjacency matrix
-		for (int j = 0; j < totalV; j++) {
+		for (int i = 0; i < height; i++) {
+
 			vector<int> row;
 
-			for (int i = 0; i < totalV; i++)
-			{ 
+			for (int j = 0; j < width; j++) {
+				if (data[i][j] == 0) {
+					row.push_back(0);
+				}
 
-				//if right is null
-				if (adjacency[j+1][i] == NULL)
+			}
+			adjacency.push_back(row);
+		}
+
+		// Set up adjacency matrix
+		for (int j = 0; j < width; j++) {
+			vector<int> row;
+
+			for (int i = 0; i < height; i++)
+			{
+
+				//Non-Edge case
+				if (i != 0 && j != 0 && i != height - 1 && j != width - 1)
 				{
-					//Do nothing
-				}
-				else{
-					//Add an edge connection
-					adjacency[j + 1][i] = 1;
-					adjacency[i][j + 1] = 1;
+					//if right is null
+					if (adjacency[j + 1][i] == NULL)
+					{
+						//Do nothing
+					}
+					else {
+						//Add an edge connection
+						adjacency[j + 1][i] = 1;
+						adjacency[i][j + 1] = 1;
+					}
+
+					//if up is null
+					if (adjacency[j][i + 1] == NULL) {
+						//Do nothing
+					}
+					else {
+						//Add an edge connection
+						adjacency[j][i + 1] = 1;
+						adjacency[i + 1][j] = 1;
+					}
+
+					//If down is null
+					if (adjacency[j][i - 1] == NULL) {
+						//Do nothing
+					}
+					else {
+						//Add an edge connection
+						adjacency[j][i - 1] = 1;
+						adjacency[i - 1][j] = 1;
+					}
+
+					//If left is null
+					if (adjacency[j - 1][i] == NULL) {
+						//Do nothing
+					}
+					else {
+						//Add an edge connection
+						adjacency[j - 1][i] = 1;
+						adjacency[i][j - 1] = 1;
+					}
 				}
 
-				//if up is null
-				if (adjacency[j][i + 1] == NULL) {
-					//Do nothing
-				}
-				else {
-					//Add an edge connection
-					adjacency[j][i + 1] = 1;
-					adjacency[i + 1][j] = 1;
+				//"Top wall" case
+				if (i == 0) {
+
+					if (j != 0) {
+						//if up is null
+						if (adjacency[j][i + 1] == NULL) {
+							//Do nothing
+						}
+						else {
+							//Add an edge connection
+							adjacency[j][i + 1] = 1;
+							adjacency[i + 1][j] = 1;
+						}
+					}
+
+					if (j != width - 1) {
+						//if right is null
+						if (adjacency[j + 1][i] == NULL)
+						{
+							//Do nothing
+						}
+						else {
+							//Add an edge connection
+							adjacency[j + 1][i] = 1;
+							adjacency[i][j + 1] = 1;
+						}
+					}
+
+					//If down is null
+					if (adjacency[j][i + 1] == NULL) {
+						//Do nothing
+					}
+					else {
+						//Add an edge connection
+						adjacency[j][i + 1] = 1;
+						adjacency[i + 1][j] = 1;
+					}
 				}
 
-				//If down is null
-				if (adjacency[j][i - 1] == NULL) {
-					//Do nothing
-				}
-				else {
-					//Add an edge connection
-					adjacency[j][i - 1] = 1;
-					adjacency[i - 1][j] = 1;
+				//"Left wall" case
+				if (j == 0) {
+					//if right is null
+					if (adjacency[j + 1][i] == NULL)
+					{
+						//Do nothing
+					}
+					else {
+						//Add an edge connection
+						adjacency[j + 1][i] = 1;
+						adjacency[i][j + 1] = 1;
+					}
+
+					if (i != 0) {
+						//If down is null
+						if (adjacency[j][i - 1] == NULL) {
+							//Do nothing
+						}
+						else {
+							//Add an edge connection
+							adjacency[j][i - 1] = 1;
+							adjacency[i - 1][j] = 1;
+						}
+					}
+
+					if (i != height - 1) {
+						
+						//if up is null
+						if (adjacency[j][i + 1] == NULL) {
+							//Do nothing
+						}
+						else {
+							//Add an edge connection
+							adjacency[j][i + 1] = 1;
+							adjacency[i + 1][j] = 1;
+						}
+					}
 				}
 
-				//If left is null
-				if (adjacency[j - 1][i] == NULL) {
-					//Do nothing
+				//"Bottom wall" case
+				if (i == height - 1) {
+
+					//if up is null
+					if (adjacency[j][i - 1] == NULL) {
+						//Do nothing
+					}
+					else {
+						//Add an edge connection
+						adjacency[j][i - 1] = 1;
+						adjacency[i - 1][j] = 1;
+					}
+
+					if (j != width - 1) {
+						//If right is null
+						if (adjacency[j + 1][i] == NULL) {
+							//Do nothing
+						}
+						else {
+							//Add an edge connection
+							adjacency[j + 1][i] = 1;
+							adjacency[i][j + 1] = 1;
+						}
+					}
+					
+					if (j != 0) {
+						//If left is null
+						if (adjacency[j - 1][i] == NULL) {
+							//Do nothing
+						}
+						else {
+							//Add an edge connection
+							adjacency[j - 1][i] = 1;
+							adjacency[i][j - 1] = 1;
+						}
+					}
+
 				}
-				else {
-					//Add an edge connection
-					adjacency[j - 1][i] = 1;
-					adjacency[i][j - 1] = 1;
+
+				//"Right wall" case
+				if (j == width - 1) {
+					
+					if (i != 0) {
+						//If down is null
+						if (adjacency[j][i - 1] == NULL) {
+							//Do nothing
+						}
+						else {
+							//Add an edge connection
+							adjacency[j][i - 1] = 1;
+							adjacency[i - 1][j] = 1;
+						}
+					}
+
+					if (i != height - 1) {
+						//if up is null
+						if (adjacency[j][i + 1] == NULL) {
+							//Do nothing
+						}
+						else {
+							//Add an edge connection
+							adjacency[j][i + 1] = 1;
+							adjacency[i + 1][j] = 1;
+						}
+					}
+
+					//If left is null
+					if (adjacency[j - 1][i] == NULL) {
+						//Do nothing
+					}
+					else {
+						//Add an edge connection
+						adjacency[j - 1][i] = 1;
+						adjacency[i][j - 1] = 1;
+					}
 				}
 
 			}
