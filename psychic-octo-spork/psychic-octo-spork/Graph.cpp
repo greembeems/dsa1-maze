@@ -281,21 +281,131 @@ using namespace std;
 		vertices[startX][startY].g = 0;
 
 		// Add all adjacent tiles to open list
-		if (adjacency[startX + 1][startY] == 1) {
-			open.push_front(&vertices[startX + 1][startY]);
-			vertices[startX + 1][startY].UpdateParent(vertices[startX][startY]);
+
+
+		//Non-Edge case
+		if (startX != 0 && startY != 0 && startY != height - 1 && startX != width - 1)
+		{
+			//Right
+			if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL) {
+				open.push_front(&vertices[startX + 1][startY]);
+				vertices[startX + 1][startY].UpdateParent(vertices[startX][startY]);
+			}
+			
+			//Left
+			if (adjacency[startX - 1][startY] != NULL && adjacency[startX - 1][startY] == 1) {
+				open.push_front(&vertices[startX - 1][startY]);
+				vertices[startX - 1][startY].UpdateParent(vertices[startX][startY]);
+			}
+			
+			//Down
+			if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL) {
+				open.push_front(&vertices[startX][startY + 1]);
+				vertices[startX][startY + 1].UpdateParent(vertices[startX][startY]);
+			}
+			
+			//Up
+			if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
+				open.push_front(&vertices[startX][startY - 1]);
+				vertices[startX][startY - 1].UpdateParent(vertices[startX][startY]);
+			}
 		}
-		if (adjacency[startX - 1][startY] == 1) {
-			open.push_front(&vertices[startX - 1][startY]);
-			vertices[startX - 1][startY].UpdateParent(vertices[startX][startY]);
+
+		//"Top wall" case
+		if (startY == 0) {
+
+			//Up
+			if (startX != 0) {
+				if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
+					open.push_front(&vertices[startX][startY - 1]);
+					vertices[startX][startY - 1].UpdateParent(vertices[startX][startY]);
+				}
+			}
+
+			//Right
+			if (startX != width - 1) {
+				//if right is null
+				if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL) {
+					open.push_front(&vertices[startX + 1][startY]);
+					vertices[startX + 1][startY].UpdateParent(vertices[startX][startY]);
+				}
+			}
+
+			//Down
+			if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL) {
+				open.push_front(&vertices[startX][startY + 1]);
+				vertices[startX][startY + 1].UpdateParent(vertices[startX][startY]);
+			}
 		}
-		if (adjacency[startX][startY + 1] == 1) {
-			open.push_front(&vertices[startX][startY + 1]);
-			vertices[startX][startY + 1].UpdateParent(vertices[startX][startY]);
+
+		//"Left wall" case
+		if (startX == 0) {
+			//Right
+			if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL) {
+				open.push_front(&vertices[startX + 1][startY]);
+				vertices[startX + 1][startY].UpdateParent(vertices[startX][startY]);
+			}
+
+			if (startY != 0) {
+				//Up
+				if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
+					open.push_front(&vertices[startX][startY - 1]);
+					vertices[startX][startY - 1].UpdateParent(vertices[startX][startY]);
+				}
+			}
+
+			if (startY != height - 1) {
+				//Down
+				if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL) {
+					open.push_front(&vertices[startX][startY + 1]);
+					vertices[startX][startY + 1].UpdateParent(vertices[startX][startY]);
+				}
+			}
 		}
-		if (adjacency[startX][startY - 1] == 1) {
-			open.push_front(&vertices[startX][startY - 1]);
-			vertices[startX][startY - 1].UpdateParent(vertices[startX][startY]);
+
+		//"Bottom wall" case
+		if (startY == height - 1) {
+
+			//Up
+			if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
+				open.push_front(&vertices[startX][startY - 1]);
+				vertices[startX][startY - 1].UpdateParent(vertices[startX][startY]);
+			}
+
+			//Right
+			if (startX != width - 1) {
+				open.push_front(&vertices[startX + 1][startY]);
+				vertices[startX + 1][startY].UpdateParent(vertices[startX][startY]);
+			}
+
+			//Left
+			if (startX != 0) {
+				open.push_front(&vertices[startX - 1][startY]);
+				vertices[startX - 1][startY].UpdateParent(vertices[startX][startY]);
+			}
+
+		}
+
+		//"Right wall" case
+		if (startX == width - 1) {
+
+			//Up
+			if (startY != 0) {
+				open.push_front(&vertices[startX][startY - 1]);
+				vertices[startX][startY - 1].UpdateParent(vertices[startX][startY]);
+			}
+
+			//Down
+			if (startY != height - 1) {
+				open.push_front(&vertices[startX][startY + 1]);
+				vertices[startX][startY + 1].UpdateParent(vertices[startX][startY]);
+			}
+
+			//Left
+			if (adjacency[startX - 1][startY] != NULL && adjacency[startX - 1][startY] == 1) {
+				open.push_front(&vertices[startX - 1][startY]);
+				vertices[startX - 1][startY].UpdateParent(vertices[startX][startY]);
+			}
 		}
 
 		int xDistance;
