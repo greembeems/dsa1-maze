@@ -15,15 +15,13 @@ class Graph
 	int totalV;
 
 	// 2d vector of vertices
-	vector<vector<Vertex>> vertices; //https://stackoverflow.com/questions/1946830/multidimensional-variable-size-array-in-c Just in case we want a reference later (Khaled Alshaya)
+	vector<vector<Vertex*>> vertices; //https://stackoverflow.com/questions/1946830/multidimensional-variable-size-array-in-c Just in case we want a reference later (Khaled Alshaya)
 
 	// Vertex generated from data
 	Vertex* generatedVertex;
 
 	// Adjacency matrix
 	vector<vector<int>> adjacency;
-
-	list<Vertex*> shortestPath;
 
 	// Data
 	const int** data;
@@ -34,9 +32,15 @@ class Graph
 
 	// Methods
 public:
-	list<Vertex*>* aStar(int startX, int startY, int endX, int endY);
+	
+	list<Vertex*> shortestPath;
+
+	bool aStar(int startX, int startY, int endX, int endY);
 
 	Graph(const int** mData, int h, int w);
 
 	void Setup();
+
+	
+
 };

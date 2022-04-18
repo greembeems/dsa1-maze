@@ -22,8 +22,6 @@ int currentIndex = 0;
 
 int length = 0;
 
-list<Vertex*>* shortestPath;
-
 Graph* aGraph;
 
 // Returns string with team members' names
@@ -65,17 +63,18 @@ __declspec(dllexport) bool GetNextPosition(int& xpos, int& ypos)
     if (currentIndex == 0)
     {
         aGraph = new Graph(mData, mHeight, mWidth);
-        shortestPath = aGraph->aStar(sXPos, sYPos, eXPos, eYPos);
-        shortestPath->reverse();
+        aGraph->aStar(sXPos, sYPos, eXPos, eYPos);
+        aGraph->shortestPath.reverse();
     }
 
-    Vertex vert = *shortestPath->back();
+    Vertex *vert = aGraph->shortestPath.back();
 
-    if (&shortestPath[currentIndex] != NULL) {
-        xpos = vert.xPos;
-        ypos = vert.yPos;
 
-        shortestPath->pop_back();
+    if ((aGraph->shortestPath)[currentIndex] != NULL) {
+        xpos = vert->xPos;
+        ypos = vert->yPos;
+
+        aGraph->shortestPath.pop_back();
 
         currentIndex++;
         return true;

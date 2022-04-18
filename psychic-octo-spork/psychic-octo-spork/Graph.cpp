@@ -24,7 +24,7 @@ using namespace std;
 		// Have to go row by row and then push to start next row
 		for (int j = 0; j < height; j++) {
 			// 1 row of vertices
-			vector<Vertex> row;
+			vector<Vertex*> row;
 
 			for (int i = 0; i < width; i++)
 			{
@@ -32,7 +32,7 @@ using namespace std;
 				if (data[i][j] == 0) {
 					generatedVertex = new Vertex(i, j);
 					// Push to the back of the list of vertices
-					row.push_back(*generatedVertex);
+					row.push_back(generatedVertex);
 				}
 			}
 
@@ -233,13 +233,13 @@ using namespace std;
 	/// <summary>
 	/// A* pathfinding method. Only call once
 	/// </summary>
-	list<Vertex*>* Graph::aStar(int startX, int startY, int endX, int endY)
+	bool Graph::aStar(int startX, int startY, int endX, int endY)
 	{
 
 		// Add starting vertex to closed list
-		closed.push_front(&vertices[startX][startY]);
+		closed.push_front(vertices[startX][startY]);
 
-		vertices[startX][startY].g = 0;
+		vertices[startX][startY]->g = 0;
 
 		// Add all adjacent tiles to open list
 
@@ -248,26 +248,30 @@ using namespace std;
 		{
 			//Right
 			if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL) {
-				open.push_front(&vertices[startX + 1][startY]);
-				vertices[startX + 1][startY].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX + 1][startY]);
+				vertices[startX + 1][startY]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX + 1][startY]->UpdateG();
 			}
 			
 			//Left
 			if (adjacency[startX - 1][startY] != NULL && adjacency[startX - 1][startY] == 1) {
-				open.push_front(&vertices[startX - 1][startY]);
-				vertices[startX - 1][startY].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX - 1][startY]);
+				vertices[startX - 1][startY]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX - 1][startY]->UpdateG();
 			}
 			
 			//Down
 			if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL) {
-				open.push_front(&vertices[startX][startY + 1]);
-				vertices[startX][startY + 1].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX][startY + 1]);
+				vertices[startX][startY + 1]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX][startY + 1]->UpdateG();
 			}
 			
 			//Up
 			if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
-				open.push_front(&vertices[startX][startY - 1]);
-				vertices[startX][startY - 1].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX][startY - 1]);
+				vertices[startX][startY - 1]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX][startY - 1]->UpdateG();
 			}
 		}
 
@@ -277,8 +281,9 @@ using namespace std;
 			//Up
 			if (startX != 0) {
 				if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
-					open.push_front(&vertices[startX][startY - 1]);
-					vertices[startX][startY - 1].UpdateParent(vertices[startX][startY]);
+					open.push_front(vertices[startX][startY - 1]);
+					vertices[startX][startY - 1]->UpdateParent(*vertices[startX][startY]);
+					vertices[startX][startY - 1]->UpdateG();
 				}
 			}
 
@@ -286,15 +291,17 @@ using namespace std;
 			if (startX != width - 1) {
 				//if right is null
 				if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL) {
-					open.push_front(&vertices[startX + 1][startY]);
-					vertices[startX + 1][startY].UpdateParent(vertices[startX][startY]);
+					open.push_front(vertices[startX + 1][startY]);
+					vertices[startX + 1][startY]->UpdateParent(*vertices[startX][startY]);
+					vertices[startX + 1][startY]->UpdateG();
 				}
 			}
 
 			//Down
 			if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL) {
-				open.push_front(&vertices[startX][startY + 1]);
-				vertices[startX][startY + 1].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX][startY + 1]);
+				vertices[startX][startY + 1]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX][startY + 1]->UpdateG();
 			}
 		}
 
@@ -302,23 +309,26 @@ using namespace std;
 		if (startX == 0) {
 			//Right
 			if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL) {
-				open.push_front(&vertices[startX + 1][startY]);
-				vertices[startX + 1][startY].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX + 1][startY]);
+				vertices[startX + 1][startY]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX + 1][startY]->UpdateG();
 			}
 
 			if (startY != 0) {
 				//Up
 				if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
-					open.push_front(&vertices[startX][startY - 1]);
-					vertices[startX][startY - 1].UpdateParent(vertices[startX][startY]);
+					open.push_front(vertices[startX][startY - 1]);
+					vertices[startX][startY - 1]->UpdateParent(*vertices[startX][startY]);
+					vertices[startX][startY - 1]->UpdateG();
 				}
 			}
 
 			if (startY != height - 1) {
 				//Down
 				if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL) {
-					open.push_front(&vertices[startX][startY + 1]);
-					vertices[startX][startY + 1].UpdateParent(vertices[startX][startY]);
+					open.push_front(vertices[startX][startY + 1]);
+					vertices[startX][startY + 1]->UpdateParent(*vertices[startX][startY]);
+					vertices[startX][startY + 1]->UpdateG();
 				}
 			}
 		}
@@ -328,20 +338,23 @@ using namespace std;
 
 			//Up
 			if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
-				open.push_front(&vertices[startX][startY - 1]);
-				vertices[startX][startY - 1].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX][startY - 1]);
+				vertices[startX][startY - 1]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX][startY - 1]->UpdateG();
 			}
 
 			//Right
 			if (startX != width - 1) {
-				open.push_front(&vertices[startX + 1][startY]);
-				vertices[startX + 1][startY].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX + 1][startY]);
+				vertices[startX + 1][startY]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX + 1][startY]->UpdateG();
 			}
 
 			//Left
 			if (startX != 0) {
-				open.push_front(&vertices[startX - 1][startY]);
-				vertices[startX - 1][startY].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX - 1][startY]);
+				vertices[startX - 1][startY]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX - 1][startY]->UpdateG();
 			}
 
 		}
@@ -351,20 +364,23 @@ using namespace std;
 
 			//Up
 			if (startY != 0) {
-				open.push_front(&vertices[startX][startY - 1]);
-				vertices[startX][startY - 1].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX][startY - 1]);
+				vertices[startX][startY - 1]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX][startY - 1]->UpdateG();
 			}
 
 			//Down
 			if (startY != height - 1) {
-				open.push_front(&vertices[startX][startY + 1]);
-				vertices[startX][startY + 1].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX][startY + 1]);
+				vertices[startX][startY + 1]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX][startY + 1]->UpdateG();
 			}
 
 			//Left
 			if (adjacency[startX - 1][startY] != NULL && adjacency[startX - 1][startY] == 1) {
-				open.push_front(&vertices[startX - 1][startY]);
-				vertices[startX - 1][startY].UpdateParent(vertices[startX][startY]);
+				open.push_front(vertices[startX - 1][startY]);
+				vertices[startX - 1][startY]->UpdateParent(*vertices[startX][startY]);
+				vertices[startX - 1][startY]->UpdateG();
 			}
 		}
 
@@ -375,10 +391,10 @@ using namespace std;
 		for (int i = 0; i < height; i++) {
 
 			for (int j = 0; j < vertices[i].size(); j++) {
-				xDistance = abs(vertices[i][j].xPos - endX);
-				yDistance = abs(vertices[i][j].yPos - endY);
+				xDistance = abs(vertices[i][j]->xPos - endX);
+				yDistance = abs(vertices[i][j]->yPos - endY);
 
-				vertices[i][j].GenerateHeuristic(xDistance + yDistance);
+				vertices[i][j]->GenerateHeuristic(xDistance + yDistance);
 			}
 		}
 
@@ -414,8 +430,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s.xPos + 1 == endX && s.yPos == endY) {
 
-						closed.push_front(&vertices[s.xPos + 1][s.yPos]);
-						vertices[s.xPos + 1][s.yPos].UpdateParent(s);
+						closed.push_front(vertices[s.xPos + 1][s.yPos]);
+						vertices[s.xPos + 1][s.yPos]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -450,16 +466,16 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(&vertices[s.xPos + 1][s.yPos]);
-							vertices[s.xPos + 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
-							vertices[s.xPos + 1][s.yPos].UpdateG();
+							open.push_front(vertices[s.xPos + 1][s.yPos]);
+							vertices[s.xPos + 1][s.yPos]->UpdateParent(*vertices[s.xPos][s.yPos]);
+							vertices[s.xPos + 1][s.yPos]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s.xPos + 1][s.yPos].f >= (vertices[s.xPos + 1][s.yPos].ReturnG() + vertices[s.xPos + 1][s.yPos].heuristic)) {
+							if (vertices[s.xPos + 1][s.yPos]->f >= (vertices[s.xPos + 1][s.yPos]->ReturnG() + vertices[s.xPos + 1][s.yPos]->heuristic)) {
 								//Update score and parent
-								vertices[s.xPos + 1][s.yPos].UpdateF();
-								vertices[s.xPos + 1][s.yPos].UpdateParent(s);
+								vertices[s.xPos + 1][s.yPos]->UpdateF();
+								vertices[s.xPos + 1][s.yPos]->UpdateParent(s);
 							}
 						}
 					}
@@ -472,8 +488,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s.xPos - 1 == endX && s.yPos == endY) {
 
-						closed.push_front(&vertices[s.xPos - 1][s.yPos]);
-						vertices[s.xPos - 1][s.yPos].UpdateParent(s);
+						closed.push_front(vertices[s.xPos - 1][s.yPos]);
+						vertices[s.xPos - 1][s.yPos]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -508,16 +524,16 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(&vertices[s.xPos - 1][s.yPos]);
-							vertices[s.xPos - 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
-							vertices[s.xPos - 1][s.yPos].UpdateG();
+							open.push_front(vertices[s.xPos - 1][s.yPos]);
+							vertices[s.xPos - 1][s.yPos]->UpdateParent(*vertices[s.xPos][s.yPos]);
+							vertices[s.xPos - 1][s.yPos]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s.xPos - 1][s.yPos].f >= (vertices[s.xPos - 1][s.yPos].ReturnG() + vertices[s.xPos - 1][s.yPos].heuristic)) {
+							if (vertices[s.xPos - 1][s.yPos]->f >= (vertices[s.xPos - 1][s.yPos]->ReturnG() + vertices[s.xPos - 1][s.yPos]->heuristic)) {
 								//Update score and parent
-								vertices[s.xPos - 1][s.yPos].UpdateF();
-								vertices[s.xPos - 1][s.yPos].UpdateParent(s);
+								vertices[s.xPos - 1][s.yPos]->UpdateF();
+								vertices[s.xPos - 1][s.yPos]->UpdateParent(s);
 							}
 						}
 
@@ -531,8 +547,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s.xPos == endX && s.yPos + 1 == endY) {
 
-						closed.push_front(&vertices[s.xPos][s.yPos + 1]);
-						vertices[s.xPos][s.yPos + 1].UpdateParent(s);
+						closed.push_front(vertices[s.xPos][s.yPos + 1]);
+						vertices[s.xPos][s.yPos + 1]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -567,16 +583,16 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(&vertices[s.xPos][s.yPos + 1]);
-							vertices[s.xPos][s.yPos + 1].UpdateParent(vertices[s.xPos][s.yPos]);
-							vertices[s.xPos][s.yPos + 1].UpdateG();
+							open.push_front(vertices[s.xPos][s.yPos + 1]);
+							vertices[s.xPos][s.yPos + 1]->UpdateParent(*vertices[s.xPos][s.yPos]);
+							vertices[s.xPos][s.yPos + 1]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s.xPos][s.yPos + 1].f >= (vertices[s.xPos][s.yPos + 1].ReturnG() + vertices[s.xPos][s.yPos + 1].heuristic)) {
+							if (vertices[s.xPos][s.yPos + 1]->f >= (vertices[s.xPos][s.yPos + 1]->ReturnG() + vertices[s.xPos][s.yPos + 1]->heuristic)) {
 								//Update score and parent
-								vertices[s.xPos][s.yPos + 1].UpdateF();
-								vertices[s.xPos][s.yPos + 1].UpdateParent(s);
+								vertices[s.xPos][s.yPos + 1]->UpdateF();
+								vertices[s.xPos][s.yPos + 1]->UpdateParent(s);
 							}
 						}
 					}
@@ -589,8 +605,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s.xPos == endX && s.yPos - 1 == endY) {
 
-						closed.push_front(&vertices[s.xPos][s.yPos - 1]);
-						vertices[s.xPos][s.yPos - 1].UpdateParent(s);
+						closed.push_front(vertices[s.xPos][s.yPos - 1]);
+						vertices[s.xPos][s.yPos - 1]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -625,16 +641,16 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(&vertices[s.xPos][s.yPos - 1]);
-							vertices[s.xPos][s.yPos - 1].UpdateParent(vertices[s.xPos][s.yPos]);
-							vertices[s.xPos][s.yPos - 1].UpdateG();
+							open.push_front(vertices[s.xPos][s.yPos - 1]);
+							vertices[s.xPos][s.yPos - 1]->UpdateParent(*vertices[s.xPos][s.yPos]);
+							vertices[s.xPos][s.yPos - 1]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s.xPos][s.yPos - 1].f >= (vertices[s.xPos][s.yPos - 1].ReturnG() + vertices[s.xPos][s.yPos - 1].heuristic)) {
+							if (vertices[s.xPos][s.yPos - 1]->f >= (vertices[s.xPos][s.yPos - 1]->ReturnG() + vertices[s.xPos][s.yPos - 1]->heuristic)) {
 								//Update score and parent
-								vertices[s.xPos][s.yPos - 1].UpdateF();
-								vertices[s.xPos][s.yPos - 1].UpdateParent(s);
+								vertices[s.xPos][s.yPos - 1]->UpdateF();
+								vertices[s.xPos][s.yPos - 1]->UpdateParent(s);
 							}
 						}
 					}
@@ -652,8 +668,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s.xPos + 1 == endX && s.yPos == endY) {
 
-							closed.push_front(&vertices[s.xPos + 1][s.yPos]);
-							vertices[s.xPos + 1][s.yPos].UpdateParent(s);
+							closed.push_front(vertices[s.xPos + 1][s.yPos]);
+							vertices[s.xPos + 1][s.yPos]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -688,16 +704,16 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(&vertices[s.xPos + 1][s.yPos]);
-								vertices[s.xPos + 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
-								vertices[s.xPos + 1][s.yPos].UpdateG();
+								open.push_front(vertices[s.xPos + 1][s.yPos]);
+								vertices[s.xPos + 1][s.yPos]->UpdateParent(*vertices[s.xPos][s.yPos]);
+								vertices[s.xPos + 1][s.yPos]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s.xPos + 1][s.yPos].f >= (vertices[s.xPos + 1][s.yPos].ReturnG() + vertices[s.xPos + 1][s.yPos].heuristic)) {
+								if (vertices[s.xPos + 1][s.yPos]->f >= (vertices[s.xPos + 1][s.yPos]->ReturnG() + vertices[s.xPos + 1][s.yPos]->heuristic)) {
 									//Update score and parent
-									vertices[s.xPos + 1][s.yPos].UpdateF();
-									vertices[s.xPos + 1][s.yPos].UpdateParent(s);
+									vertices[s.xPos + 1][s.yPos]->UpdateF();
+									vertices[s.xPos + 1][s.yPos]->UpdateParent(s);
 								}
 							}
 						}
@@ -712,8 +728,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s.xPos - 1 == endX && s.yPos == endY) {
 
-							closed.push_front(&vertices[s.xPos - 1][s.yPos]);
-							vertices[s.xPos - 1][s.yPos].UpdateParent(s);
+							closed.push_front(vertices[s.xPos - 1][s.yPos]);
+							vertices[s.xPos - 1][s.yPos]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -748,16 +764,16 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(&vertices[s.xPos - 1][s.yPos]);
-								vertices[s.xPos - 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
-								vertices[s.xPos - 1][s.yPos].UpdateG();
+								open.push_front(vertices[s.xPos - 1][s.yPos]);
+								vertices[s.xPos - 1][s.yPos]->UpdateParent(*vertices[s.xPos][s.yPos]);
+								vertices[s.xPos - 1][s.yPos]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s.xPos - 1][s.yPos].f >= (vertices[s.xPos - 1][s.yPos].ReturnG() + vertices[s.xPos - 1][s.yPos].heuristic)) {
+								if (vertices[s.xPos - 1][s.yPos]->f >= (vertices[s.xPos - 1][s.yPos]->ReturnG() + vertices[s.xPos - 1][s.yPos]->heuristic)) {
 									//Update score and parent
-									vertices[s.xPos - 1][s.yPos].UpdateF();
-									vertices[s.xPos - 1][s.yPos].UpdateParent(s);
+									vertices[s.xPos - 1][s.yPos]->UpdateF();
+									vertices[s.xPos - 1][s.yPos]->UpdateParent(s);
 								}
 							}
 
@@ -772,8 +788,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s.xPos == endX && s.yPos + 1 == endY) {
 
-						closed.push_front(&vertices[s.xPos][s.yPos + 1]);
-						vertices[s.xPos][s.yPos + 1].UpdateParent(s);
+						closed.push_front(vertices[s.xPos][s.yPos + 1]);
+						vertices[s.xPos][s.yPos + 1]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -808,16 +824,16 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(&vertices[s.xPos][s.yPos + 1]);
-							vertices[s.xPos][s.yPos + 1].UpdateParent(vertices[s.xPos][s.yPos]);
-							vertices[s.xPos][s.yPos + 1].UpdateG();
+							open.push_front(vertices[s.xPos][s.yPos + 1]);
+							vertices[s.xPos][s.yPos + 1]->UpdateParent(*vertices[s.xPos][s.yPos]);
+							vertices[s.xPos][s.yPos + 1]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s.xPos][s.yPos + 1].f >= (vertices[s.xPos][s.yPos + 1].ReturnG() + vertices[s.xPos][s.yPos + 1].heuristic)) {
+							if (vertices[s.xPos][s.yPos + 1]->f >= (vertices[s.xPos][s.yPos + 1]->ReturnG() + vertices[s.xPos][s.yPos + 1]->heuristic)) {
 								//Update score and parent
-								vertices[s.xPos][s.yPos + 1].UpdateF();
-								vertices[s.xPos][s.yPos + 1].UpdateParent(s);
+								vertices[s.xPos][s.yPos + 1]->UpdateF();
+								vertices[s.xPos][s.yPos + 1]->UpdateParent(s);
 							}
 						}
 					}
@@ -834,8 +850,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s.xPos + 1 == endX && s.yPos == endY) {
 
-						closed.push_front(&vertices[s.xPos + 1][s.yPos]);
-						vertices[s.xPos + 1][s.yPos].UpdateParent(s);
+						closed.push_front(vertices[s.xPos + 1][s.yPos]);
+						vertices[s.xPos + 1][s.yPos]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -870,16 +886,16 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(&vertices[s.xPos + 1][s.yPos]);
-							vertices[s.xPos + 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
-							vertices[s.xPos + 1][s.yPos].UpdateG();
+							open.push_front(vertices[s.xPos + 1][s.yPos]);
+							vertices[s.xPos + 1][s.yPos]->UpdateParent(*vertices[s.xPos][s.yPos]);
+							vertices[s.xPos + 1][s.yPos]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s.xPos + 1][s.yPos].f >= (vertices[s.xPos + 1][s.yPos].ReturnG() + vertices[s.xPos + 1][s.yPos].heuristic)) {
+							if (vertices[s.xPos + 1][s.yPos]->f >= (vertices[s.xPos + 1][s.yPos]->ReturnG() + vertices[s.xPos + 1][s.yPos]->heuristic)) {
 								//Update score and parent
-								vertices[s.xPos + 1][s.yPos].UpdateF();
-								vertices[s.xPos + 1][s.yPos].UpdateParent(s);
+								vertices[s.xPos + 1][s.yPos]->UpdateF();
+								vertices[s.xPos + 1][s.yPos]->UpdateParent(s);
 							}
 						}
 					}
@@ -893,8 +909,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s.xPos == endX && s.yPos - 1 == endY) {
 
-							closed.push_front(&vertices[s.xPos][s.yPos - 1]);
-							vertices[s.xPos][s.yPos - 1].UpdateParent(s);
+							closed.push_front(vertices[s.xPos][s.yPos - 1]);
+							vertices[s.xPos][s.yPos - 1]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -929,16 +945,16 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(&vertices[s.xPos][s.yPos - 1]);
-								vertices[s.xPos][s.yPos - 1].UpdateParent(vertices[s.xPos][s.yPos]);
-								vertices[s.xPos][s.yPos - 1].UpdateG();
+								open.push_front(vertices[s.xPos][s.yPos - 1]);
+								vertices[s.xPos][s.yPos - 1]->UpdateParent(*vertices[s.xPos][s.yPos]);
+								vertices[s.xPos][s.yPos - 1]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s.xPos][s.yPos - 1].f >= (vertices[s.xPos][s.yPos - 1].ReturnG() + vertices[s.xPos][s.yPos - 1].heuristic)) {
+								if (vertices[s.xPos][s.yPos - 1]->f >= (vertices[s.xPos][s.yPos - 1]->ReturnG() + vertices[s.xPos][s.yPos - 1]->heuristic)) {
 									//Update score and parent
-									vertices[s.xPos][s.yPos - 1].UpdateF();
-									vertices[s.xPos][s.yPos - 1].UpdateParent(s);
+									vertices[s.xPos][s.yPos - 1]->UpdateF();
+									vertices[s.xPos][s.yPos - 1]->UpdateParent(s);
 								}
 							}
 						}
@@ -953,8 +969,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s.xPos == endX && s.yPos + 1 == endY) {
 
-							closed.push_front(&vertices[s.xPos][s.yPos + 1]);
-							vertices[s.xPos][s.yPos + 1].UpdateParent(s);
+							closed.push_front(vertices[s.xPos][s.yPos + 1]);
+							vertices[s.xPos][s.yPos + 1]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -989,16 +1005,16 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(&vertices[s.xPos][s.yPos + 1]);
-								vertices[s.xPos][s.yPos + 1].UpdateParent(vertices[s.xPos][s.yPos]);
-								vertices[s.xPos][s.yPos + 1].UpdateG();
+								open.push_front(vertices[s.xPos][s.yPos + 1]);
+								vertices[s.xPos][s.yPos + 1]->UpdateParent(*vertices[s.xPos][s.yPos]);
+								vertices[s.xPos][s.yPos + 1]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s.xPos][s.yPos + 1].f >= (vertices[s.xPos][s.yPos + 1].ReturnG() + vertices[s.xPos][s.yPos + 1].heuristic)) {
+								if (vertices[s.xPos][s.yPos + 1]->f >= (vertices[s.xPos][s.yPos + 1]->ReturnG() + vertices[s.xPos][s.yPos + 1]->heuristic)) {
 									//Update score and parent
-									vertices[s.xPos][s.yPos + 1].UpdateF();
-									vertices[s.xPos][s.yPos + 1].UpdateParent(s);
+									vertices[s.xPos][s.yPos + 1]->UpdateF();
+									vertices[s.xPos][s.yPos + 1]->UpdateParent(s);
 								}
 							}
 						}
@@ -1016,8 +1032,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s.xPos == endX && s.yPos - 1 == endY) {
 
-						closed.push_front(&vertices[s.xPos][s.yPos - 1]);
-						vertices[s.xPos][s.yPos - 1].UpdateParent(s);
+						closed.push_front(vertices[s.xPos][s.yPos - 1]);
+						vertices[s.xPos][s.yPos - 1]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -1052,16 +1068,16 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(&vertices[s.xPos][s.yPos - 1]);
-							vertices[s.xPos][s.yPos - 1].UpdateParent(vertices[s.xPos][s.yPos]);
-							vertices[s.xPos][s.yPos - 1].UpdateG();
+							open.push_front(vertices[s.xPos][s.yPos - 1]);
+							vertices[s.xPos][s.yPos - 1]->UpdateParent(*vertices[s.xPos][s.yPos]);
+							vertices[s.xPos][s.yPos - 1]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s.xPos][s.yPos - 1].f >= (vertices[s.xPos][s.yPos - 1].ReturnG() + vertices[s.xPos][s.yPos - 1].heuristic)) {
+							if (vertices[s.xPos][s.yPos - 1]->f >= (vertices[s.xPos][s.yPos - 1]->ReturnG() + vertices[s.xPos][s.yPos - 1]->heuristic)) {
 								//Update score and parent
-								vertices[s.xPos][s.yPos - 1].UpdateF();
-								vertices[s.xPos][s.yPos - 1].UpdateParent(s);
+								vertices[s.xPos][s.yPos - 1]->UpdateF();
+								vertices[s.xPos][s.yPos - 1]->UpdateParent(s);
 							}
 						}
 					}
@@ -1075,8 +1091,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s.xPos + 1 == endX && s.yPos == endY) {
 
-							closed.push_front(&vertices[s.xPos + 1][s.yPos]);
-							vertices[s.xPos + 1][s.yPos].UpdateParent(s);
+							closed.push_front(vertices[s.xPos + 1][s.yPos]);
+							vertices[s.xPos + 1][s.yPos]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -1111,16 +1127,16 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(&vertices[s.xPos + 1][s.yPos]);
-								vertices[s.xPos + 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
-								vertices[s.xPos + 1][s.yPos].UpdateG();
+								open.push_front(vertices[s.xPos + 1][s.yPos]);
+								vertices[s.xPos + 1][s.yPos]->UpdateParent(*vertices[s.xPos][s.yPos]);
+								vertices[s.xPos + 1][s.yPos]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s.xPos + 1][s.yPos].f >= (vertices[s.xPos + 1][s.yPos].ReturnG() + vertices[s.xPos + 1][s.yPos].heuristic)) {
+								if (vertices[s.xPos + 1][s.yPos]->f >= (vertices[s.xPos + 1][s.yPos]->ReturnG() + vertices[s.xPos + 1][s.yPos]->heuristic)) {
 									//Update score and parent
-									vertices[s.xPos + 1][s.yPos].UpdateF();
-									vertices[s.xPos + 1][s.yPos].UpdateParent(s);
+									vertices[s.xPos + 1][s.yPos]->UpdateF();
+									vertices[s.xPos + 1][s.yPos]->UpdateParent(s);
 								}
 							}
 						}
@@ -1135,8 +1151,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s.xPos - 1 == endX && s.yPos == endY) {
 
-							closed.push_front(&vertices[s.xPos - 1][s.yPos]);
-							vertices[s.xPos - 1][s.yPos].UpdateParent(s);
+							closed.push_front(vertices[s.xPos - 1][s.yPos]);
+							vertices[s.xPos - 1][s.yPos]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -1171,16 +1187,16 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(&vertices[s.xPos - 1][s.yPos]);
-								vertices[s.xPos - 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
-								vertices[s.xPos - 1][s.yPos].UpdateG();
+								open.push_front(vertices[s.xPos - 1][s.yPos]);
+								vertices[s.xPos - 1][s.yPos]->UpdateParent(*vertices[s.xPos][s.yPos]);
+								vertices[s.xPos - 1][s.yPos]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s.xPos - 1][s.yPos].f >= (vertices[s.xPos - 1][s.yPos].ReturnG() + vertices[s.xPos - 1][s.yPos].heuristic)) {
+								if (vertices[s.xPos - 1][s.yPos]->f >= (vertices[s.xPos - 1][s.yPos]->ReturnG() + vertices[s.xPos - 1][s.yPos]->heuristic)) {
 									//Update score and parent
-									vertices[s.xPos - 1][s.yPos].UpdateF();
-									vertices[s.xPos - 1][s.yPos].UpdateParent(s);
+									vertices[s.xPos - 1][s.yPos]->UpdateF();
+									vertices[s.xPos - 1][s.yPos]->UpdateParent(s);
 								}
 							}
 
@@ -1201,8 +1217,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s.xPos == endX && s.yPos - 1 == endY) {
 
-							closed.push_front(&vertices[s.xPos][s.yPos - 1]);
-							vertices[s.xPos][s.yPos - 1].UpdateParent(s);
+							closed.push_front(vertices[s.xPos][s.yPos - 1]);
+							vertices[s.xPos][s.yPos - 1]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -1237,16 +1253,16 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(&vertices[s.xPos][s.yPos - 1]);
-								vertices[s.xPos][s.yPos - 1].UpdateParent(vertices[s.xPos][s.yPos]);
-								vertices[s.xPos][s.yPos - 1].UpdateG();
+								open.push_front(vertices[s.xPos][s.yPos - 1]);
+								vertices[s.xPos][s.yPos - 1]->UpdateParent(*vertices[s.xPos][s.yPos]);
+								vertices[s.xPos][s.yPos - 1]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s.xPos][s.yPos - 1].f >= (vertices[s.xPos][s.yPos - 1].ReturnG() + vertices[s.xPos][s.yPos - 1].heuristic)) {
+								if (vertices[s.xPos][s.yPos - 1]->f >= (vertices[s.xPos][s.yPos - 1]->ReturnG() + vertices[s.xPos][s.yPos - 1]->heuristic)) {
 									//Update score and parent
-									vertices[s.xPos][s.yPos - 1].UpdateF();
-									vertices[s.xPos][s.yPos - 1].UpdateParent(s);
+									vertices[s.xPos][s.yPos - 1]->UpdateF();
+									vertices[s.xPos][s.yPos - 1]->UpdateParent(s);
 								}
 							}
 						}
@@ -1261,8 +1277,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s.xPos == endX && s.yPos + 1 == endY) {
 
-							closed.push_front(&vertices[s.xPos][s.yPos + 1]);
-							vertices[s.xPos][s.yPos + 1].UpdateParent(s);
+							closed.push_front(vertices[s.xPos][s.yPos + 1]);
+							vertices[s.xPos][s.yPos + 1]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -1297,16 +1313,16 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(&vertices[s.xPos][s.yPos + 1]);
-								vertices[s.xPos][s.yPos + 1].UpdateParent(vertices[s.xPos][s.yPos]);
-								vertices[s.xPos][s.yPos + 1].UpdateG();
+								open.push_front(vertices[s.xPos][s.yPos + 1]);
+								vertices[s.xPos][s.yPos + 1]->UpdateParent(*vertices[s.xPos][s.yPos]);
+								vertices[s.xPos][s.yPos + 1]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s.xPos][s.yPos + 1].f >= (vertices[s.xPos][s.yPos + 1].ReturnG() + vertices[s.xPos][s.yPos + 1].heuristic)) {
+								if (vertices[s.xPos][s.yPos + 1]->f >= (vertices[s.xPos][s.yPos + 1]->ReturnG() + vertices[s.xPos][s.yPos + 1]->heuristic)) {
 									//Update score and parent
-									vertices[s.xPos][s.yPos + 1].UpdateF();
-									vertices[s.xPos][s.yPos + 1].UpdateParent(s);
+									vertices[s.xPos][s.yPos + 1]->UpdateF();
+									vertices[s.xPos][s.yPos + 1]->UpdateParent(s);
 								}
 							}
 						}
@@ -1320,8 +1336,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s.xPos - 1 == endX && s.yPos == endY) {
 
-						closed.push_front(&vertices[s.xPos - 1][s.yPos]);
-						vertices[s.xPos - 1][s.yPos].UpdateParent(s);
+						closed.push_front(vertices[s.xPos - 1][s.yPos]);
+						vertices[s.xPos - 1][s.yPos]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -1356,16 +1372,16 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(&vertices[s.xPos - 1][s.yPos]);
-							vertices[s.xPos - 1][s.yPos].UpdateParent(vertices[s.xPos][s.yPos]);
-							vertices[s.xPos - 1][s.yPos].UpdateG();
+							open.push_front(vertices[s.xPos - 1][s.yPos]);
+							vertices[s.xPos - 1][s.yPos]->UpdateParent(*vertices[s.xPos][s.yPos]);
+							vertices[s.xPos - 1][s.yPos]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s.xPos - 1][s.yPos].f >= (vertices[s.xPos - 1][s.yPos].ReturnG() + vertices[s.xPos - 1][s.yPos].heuristic)) {
+							if (vertices[s.xPos - 1][s.yPos]->f >= (vertices[s.xPos - 1][s.yPos]->ReturnG() + vertices[s.xPos - 1][s.yPos]->heuristic)) {
 								//Update score and parent
-								vertices[s.xPos - 1][s.yPos].UpdateF();
-								vertices[s.xPos - 1][s.yPos].UpdateParent(s);
+								vertices[s.xPos - 1][s.yPos]->UpdateF();
+								vertices[s.xPos - 1][s.yPos]->UpdateParent(s);
 							}
 						}
 
@@ -1377,7 +1393,7 @@ using namespace std;
 		}
 
 		// go backwards from end tile parent by parent to learn exact shortest path
-		Vertex* currentVert = &vertices[endX][endY];
+		Vertex* currentVert = vertices[endX][endY];
 		while (currentVert->ReturnParent() != nullptr)
 		{
 			shortestPath.push_front(currentVert);
@@ -1385,5 +1401,5 @@ using namespace std;
 		}
 
 		// done!
-		return &shortestPath;
+		return true;
 	}
