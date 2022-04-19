@@ -27,13 +27,13 @@ class Graph
 	const int** data;
 
 	// Open and closed list of vertices for pathfinding
-	list<Vertex*> open;
-	list<Vertex*> closed;
+	vector<Vertex*> open;
+	vector<Vertex*> closed;
 
 	// Methods
 public:
 	
-	list<Vertex*> shortestPath;
+	vector<Vertex*> shortestPath;
 
 	bool aStar(int startX, int startY, int endX, int endY);
 

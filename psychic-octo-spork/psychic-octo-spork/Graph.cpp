@@ -5,7 +5,7 @@ using namespace std;
 	// Constructor
 	Graph::Graph(const int** mData, int h, int w)
 	{
-		//Sets all the required variablesw
+		//Sets all the required variables
 		height = h;
 		width = w;
 		data = mData;
@@ -237,7 +237,8 @@ using namespace std;
 	{
 
 		// Add starting vertex to closed list
-		closed.push_front(vertices[startX][startY]);
+		closed.emplace(closed.begin(), vertices[startX][startY]);
+		
 
 		vertices[startX][startY]->g = 0;
 
@@ -248,28 +249,28 @@ using namespace std;
 		{
 			//Right
 			if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL) {
-				open.push_front(vertices[startX + 1][startY]);
+				open.emplace(open.begin(), vertices[startX + 1][startY]);
 				vertices[startX + 1][startY]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX + 1][startY]->UpdateG();
 			}
 			
 			//Left
 			if (adjacency[startX - 1][startY] != NULL && adjacency[startX - 1][startY] == 1) {
-				open.push_front(vertices[startX - 1][startY]);
+				open.emplace(open.begin(), vertices[startX - 1][startY]);
 				vertices[startX - 1][startY]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX - 1][startY]->UpdateG();
 			}
 			
 			//Down
 			if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL) {
-				open.push_front(vertices[startX][startY + 1]);
+				open.emplace(open.begin(), vertices[startX][startY + 1]);
 				vertices[startX][startY + 1]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX][startY + 1]->UpdateG();
 			}
 			
 			//Up
 			if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
-				open.push_front(vertices[startX][startY - 1]);
+				open.emplace(open.begin(), vertices[startX][startY - 1]);
 				vertices[startX][startY - 1]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX][startY - 1]->UpdateG();
 			}
@@ -281,7 +282,7 @@ using namespace std;
 			//Up
 			if (startX != 0) {
 				if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
-					open.push_front(vertices[startX][startY - 1]);
+					open.emplace(open.begin(), vertices[startX][startY - 1]);
 					vertices[startX][startY - 1]->UpdateParent(*vertices[startX][startY]);
 					vertices[startX][startY - 1]->UpdateG();
 				}
@@ -291,7 +292,7 @@ using namespace std;
 			if (startX != width - 1) {
 				//if right is null
 				if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL) {
-					open.push_front(vertices[startX + 1][startY]);
+					open.emplace(open.begin(), vertices[startX + 1][startY]);
 					vertices[startX + 1][startY]->UpdateParent(*vertices[startX][startY]);
 					vertices[startX + 1][startY]->UpdateG();
 				}
@@ -299,7 +300,7 @@ using namespace std;
 
 			//Down
 			if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL) {
-				open.push_front(vertices[startX][startY + 1]);
+				open.emplace(open.begin(), vertices[startX][startY + 1]);
 				vertices[startX][startY + 1]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX][startY + 1]->UpdateG();
 			}
@@ -309,7 +310,7 @@ using namespace std;
 		if (startX == 0) {
 			//Right
 			if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL) {
-				open.push_front(vertices[startX + 1][startY]);
+				open.emplace(open.begin(), vertices[startX + 1][startY]);
 				vertices[startX + 1][startY]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX + 1][startY]->UpdateG();
 			}
@@ -317,7 +318,7 @@ using namespace std;
 			if (startY != 0) {
 				//Up
 				if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
-					open.push_front(vertices[startX][startY - 1]);
+					open.emplace(open.begin(), vertices[startX][startY - 1]);
 					vertices[startX][startY - 1]->UpdateParent(*vertices[startX][startY]);
 					vertices[startX][startY - 1]->UpdateG();
 				}
@@ -326,7 +327,7 @@ using namespace std;
 			if (startY != height - 1) {
 				//Down
 				if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL) {
-					open.push_front(vertices[startX][startY + 1]);
+					open.emplace(open.begin(), vertices[startX][startY + 1]);
 					vertices[startX][startY + 1]->UpdateParent(*vertices[startX][startY]);
 					vertices[startX][startY + 1]->UpdateG();
 				}
@@ -338,21 +339,21 @@ using namespace std;
 
 			//Up
 			if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL) {
-				open.push_front(vertices[startX][startY - 1]);
+				open.emplace(open.begin(), vertices[startX][startY - 1]);
 				vertices[startX][startY - 1]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX][startY - 1]->UpdateG();
 			}
 
 			//Right
 			if (startX != width - 1) {
-				open.push_front(vertices[startX + 1][startY]);
+				open.emplace(open.begin(), vertices[startX + 1][startY]);
 				vertices[startX + 1][startY]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX + 1][startY]->UpdateG();
 			}
 
 			//Left
 			if (startX != 0) {
-				open.push_front(vertices[startX - 1][startY]);
+				open.emplace(open.begin(), vertices[startX - 1][startY]);
 				vertices[startX - 1][startY]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX - 1][startY]->UpdateG();
 			}
@@ -364,21 +365,21 @@ using namespace std;
 
 			//Up
 			if (startY != 0) {
-				open.push_front(vertices[startX][startY - 1]);
+				open.emplace(open.begin(), vertices[startX][startY - 1]);
 				vertices[startX][startY - 1]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX][startY - 1]->UpdateG();
 			}
 
 			//Down
 			if (startY != height - 1) {
-				open.push_front(vertices[startX][startY + 1]);
+				open.emplace(open.begin(), vertices[startX][startY + 1]);
 				vertices[startX][startY + 1]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX][startY + 1]->UpdateG();
 			}
 
 			//Left
 			if (adjacency[startX - 1][startY] != NULL && adjacency[startX - 1][startY] == 1) {
-				open.push_front(vertices[startX - 1][startY]);
+				open.emplace(open.begin(), vertices[startX - 1][startY]);
 				vertices[startX - 1][startY]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX - 1][startY]->UpdateG();
 			}
@@ -416,7 +417,8 @@ using namespace std;
 
 			// Remove s from open list & add to closed
 			open.remove_if(*s);
-			closed.push_front(s);
+			closed.emplace(closed.begin(), s);
+			
 
 			// For each square, t, in s's valid adjacent tiles
 			
@@ -430,7 +432,7 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s->xPos + 1 == endX && s->yPos == endY) {
 
-						closed.push_front(vertices[s->xPos + 1][s->yPos]);
+						closed.emplace(closed.begin(), vertices[s->xPos + 1][s->yPos]);
 						vertices[s->xPos + 1][s->yPos]->UpdateParent(*s);
 						checking = false;
 						break;
@@ -466,7 +468,7 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(vertices[s->xPos + 1][s->yPos]);
+							open.emplace(open.begin(), vertices[s->xPos + 1][s->yPos]);
 							vertices[s->xPos + 1][s->yPos]->UpdateParent(*vertices[s->xPos][s->yPos]);
 							vertices[s->xPos + 1][s->yPos]->UpdateG();
 						}
@@ -488,7 +490,7 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s->xPos - 1 == endX && s->yPos == endY) {
 
-						closed.push_front(vertices[s->xPos - 1][s->yPos]);
+						closed.emplace(closed.begin(), vertices[s->xPos - 1][s->yPos]);
 						vertices[s->xPos - 1][s->yPos]->UpdateParent(*s);
 						checking = false;
 						break;
@@ -524,7 +526,7 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(vertices[s->xPos - 1][s->yPos]);
+							open.emplace(open.begin(), vertices[s->xPos - 1][s->yPos]);
 							vertices[s->xPos - 1][s->yPos]->UpdateParent(*vertices[s->xPos][s->yPos]);
 							vertices[s->xPos - 1][s->yPos]->UpdateG();
 						}
@@ -547,7 +549,7 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s->xPos == endX && s->yPos + 1 == endY) {
 
-						closed.push_front(vertices[s->xPos][s->yPos + 1]);
+						closed.emplace(closed.begin(), vertices[s->xPos][s->yPos + 1]);
 						vertices[s->xPos][s->yPos + 1]->UpdateParent(*s);
 						checking = false;
 						break;
@@ -583,7 +585,7 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(vertices[s->xPos][s->yPos + 1]);
+							open.emplace(open.begin(), vertices[s->xPos][s->yPos + 1]);
 							vertices[s->xPos][s->yPos + 1]->UpdateParent(*vertices[s->xPos][s->yPos]);
 							vertices[s->xPos][s->yPos + 1]->UpdateG();
 						}
@@ -605,7 +607,7 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s->xPos == endX && s->yPos - 1 == endY) {
 
-						closed.push_front(vertices[s->xPos][s->yPos - 1]);
+						closed.emplace(closed.begin(), vertices[s->xPos][s->yPos - 1]);
 						vertices[s->xPos][s->yPos - 1]->UpdateParent(*s);
 						checking = false;
 						break;
@@ -641,7 +643,7 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(vertices[s->xPos][s->yPos - 1]);
+							open.emplace(open.begin(), vertices[s->xPos][s->yPos - 1]);
 							vertices[s->xPos][s->yPos - 1]->UpdateParent(*vertices[s->xPos][s->yPos]);
 							vertices[s->xPos][s->yPos - 1]->UpdateG();
 						}
@@ -668,7 +670,7 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s->xPos + 1 == endX && s->yPos == endY) {
 
-							closed.push_front(vertices[s->xPos + 1][s->yPos]);
+							closed.emplace(closed.begin(), vertices[s->xPos + 1][s->yPos]);
 							vertices[s->xPos + 1][s->yPos]->UpdateParent(*s);
 							checking = false;
 							break;
@@ -704,7 +706,7 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(vertices[s->xPos + 1][s->yPos]);
+								open.emplace(open.begin(), vertices[s->xPos + 1][s->yPos]);
 								vertices[s->xPos + 1][s->yPos]->UpdateParent(*vertices[s->xPos][s->yPos]);
 								vertices[s->xPos + 1][s->yPos]->UpdateG();
 							}
@@ -728,7 +730,7 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s->xPos - 1 == endX && s->yPos == endY) {
 
-							closed.push_front(vertices[s->xPos - 1][s->yPos]);
+							closed.emplace(closed.begin(), vertices[s->xPos - 1][s->yPos]);
 							vertices[s->xPos - 1][s->yPos]->UpdateParent(*s);
 							checking = false;
 							break;
@@ -764,7 +766,7 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(vertices[s->xPos - 1][s->yPos]);
+								open.emplace(open.begin(), vertices[s->xPos - 1][s->yPos]);
 								vertices[s->xPos - 1][s->yPos]->UpdateParent(*vertices[s->xPos][s->yPos]);
 								vertices[s->xPos - 1][s->yPos]->UpdateG();
 							}
@@ -788,7 +790,7 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s->xPos == endX && s->yPos + 1 == endY) {
 
-						closed.push_front(vertices[s->xPos][s->yPos + 1]);
+						closed.emplace(closed.begin(), vertices[s->xPos][s->yPos + 1]);
 						vertices[s->xPos][s->yPos + 1]->UpdateParent(*s);
 						checking = false;
 						break;
@@ -824,7 +826,7 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(vertices[s->xPos][s->yPos + 1]);
+							open.emplace(open.begin(), vertices[s->xPos][s->yPos + 1]);
 							vertices[s->xPos][s->yPos + 1]->UpdateParent(*vertices[s->xPos][s->yPos]);
 							vertices[s->xPos][s->yPos + 1]->UpdateG();
 						}
@@ -850,7 +852,7 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s->xPos + 1 == endX && s->yPos == endY) {
 
-						closed.push_front(vertices[s->xPos + 1][s->yPos]);
+						closed.emplace(closed.begin(), vertices[s->xPos + 1][s->yPos]);
 						vertices[s->xPos + 1][s->yPos]->UpdateParent(*s);
 						checking = false;
 						break;
@@ -886,7 +888,7 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(vertices[s->xPos + 1][s->yPos]);
+							open.emplace(open.begin(), vertices[s->xPos + 1][s->yPos]);
 							vertices[s->xPos + 1][s->yPos]->UpdateParent(*vertices[s->xPos][s->yPos]);
 							vertices[s->xPos + 1][s->yPos]->UpdateG();
 						}
@@ -909,7 +911,7 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s->xPos == endX && s->yPos - 1 == endY) {
 
-							closed.push_front(vertices[s->xPos][s->yPos - 1]);
+							closed.emplace(closed.begin(), vertices[s->xPos][s->yPos - 1]);
 							vertices[s->xPos][s->yPos - 1]->UpdateParent(*s);
 							checking = false;
 							break;
@@ -945,7 +947,7 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(vertices[s->xPos][s->yPos - 1]);
+								open.emplace(open.begin(), vertices[s->xPos][s->yPos - 1]);
 								vertices[s->xPos][s->yPos - 1]->UpdateParent(*vertices[s->xPos][s->yPos]);
 								vertices[s->xPos][s->yPos - 1]->UpdateG();
 							}
@@ -969,7 +971,7 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s->xPos == endX && s->yPos + 1 == endY) {
 
-							closed.push_front(vertices[s->xPos][s->yPos + 1]);
+							closed.emplace(closed.begin(), vertices[s->xPos][s->yPos + 1]);
 							vertices[s->xPos][s->yPos + 1]->UpdateParent(*s);
 							checking = false;
 							break;
@@ -1005,7 +1007,7 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(vertices[s->xPos][s->yPos + 1]);
+								open.emplace(open.begin(), vertices[s->xPos][s->yPos + 1]);
 								vertices[s->xPos][s->yPos + 1]->UpdateParent(*vertices[s->xPos][s->yPos]);
 								vertices[s->xPos][s->yPos + 1]->UpdateG();
 							}
@@ -1032,7 +1034,7 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s->xPos == endX && s->yPos - 1 == endY) {
 
-						closed.push_front(vertices[s->xPos][s->yPos - 1]);
+						closed.emplace(closed.begin(), vertices[s->xPos][s->yPos - 1]);
 						vertices[s->xPos][s->yPos - 1]->UpdateParent(*s);
 						checking = false;
 						break;
@@ -1068,7 +1070,7 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(vertices[s->xPos][s->yPos - 1]);
+							open.emplace(open.begin(), vertices[s->xPos][s->yPos - 1]);
 							vertices[s->xPos][s->yPos - 1]->UpdateParent(*vertices[s->xPos][s->yPos]);
 							vertices[s->xPos][s->yPos - 1]->UpdateG();
 						}
@@ -1091,7 +1093,7 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s->xPos + 1 == endX && s->yPos == endY) {
 
-							closed.push_front(vertices[s->xPos + 1][s->yPos]);
+							closed.emplace(closed.begin(), vertices[s->xPos + 1][s->yPos]);
 							vertices[s->xPos + 1][s->yPos]->UpdateParent(*s);
 							checking = false;
 							break;
@@ -1127,7 +1129,7 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(vertices[s->xPos + 1][s->yPos]);
+								open.emplace(open.begin(), vertices[s->xPos + 1][s->yPos]);
 								vertices[s->xPos + 1][s->yPos]->UpdateParent(*vertices[s->xPos][s->yPos]);
 								vertices[s->xPos + 1][s->yPos]->UpdateG();
 							}
@@ -1151,7 +1153,7 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s->xPos - 1 == endX && s->yPos == endY) {
 
-							closed.push_front(vertices[s->xPos - 1][s->yPos]);
+							closed.emplace(closed.begin(), vertices[s->xPos - 1][s->yPos]);
 							vertices[s->xPos - 1][s->yPos]->UpdateParent(*s);
 							checking = false;
 							break;
@@ -1187,7 +1189,7 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(vertices[s->xPos - 1][s->yPos]);
+								open.emplace(open.begin(), vertices[s->xPos - 1][s->yPos]);
 								vertices[s->xPos - 1][s->yPos]->UpdateParent(*vertices[s->xPos][s->yPos]);
 								vertices[s->xPos - 1][s->yPos]->UpdateG();
 							}
@@ -1217,7 +1219,7 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s->xPos == endX && s->yPos - 1 == endY) {
 
-							closed.push_front(vertices[s->xPos][s->yPos - 1]);
+							closed.emplace(closed.begin(), vertices[s->xPos][s->yPos - 1]);
 							vertices[s->xPos][s->yPos - 1]->UpdateParent(*s);
 							checking = false;
 							break;
@@ -1253,7 +1255,7 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(vertices[s->xPos][s->yPos - 1]);
+								open.emplace(open.begin(), vertices[s->xPos][s->yPos - 1]);
 								vertices[s->xPos][s->yPos - 1]->UpdateParent(*vertices[s->xPos][s->yPos]);
 								vertices[s->xPos][s->yPos - 1]->UpdateG();
 							}
@@ -1277,7 +1279,7 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if (s->xPos == endX && s->yPos + 1 == endY) {
 
-							closed.push_front(vertices[s->xPos][s->yPos + 1]);
+							closed.emplace(closed.begin(), vertices[s->xPos][s->yPos + 1]);
 							vertices[s->xPos][s->yPos + 1]->UpdateParent(*s);
 							checking = false;
 							break;
@@ -1313,7 +1315,7 @@ using namespace std;
 
 							//Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
-								open.push_front(vertices[s->xPos][s->yPos + 1]);
+								open.emplace(open.begin(), vertices[s->xPos][s->yPos + 1]);
 								vertices[s->xPos][s->yPos + 1]->UpdateParent(*vertices[s->xPos][s->yPos]);
 								vertices[s->xPos][s->yPos + 1]->UpdateG();
 							}
@@ -1336,7 +1338,7 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if (s->xPos - 1 == endX && s->yPos == endY) {
 
-						closed.push_front(vertices[s->xPos - 1][s->yPos]);
+						closed.emplace(closed.begin(), vertices[s->xPos - 1][s->yPos]);
 						vertices[s->xPos - 1][s->yPos]->UpdateParent(*s);
 						checking = false;
 						break;
@@ -1372,7 +1374,7 @@ using namespace std;
 
 						//Iterator returns last if the vertex is not found
 						if (!inOpen) { //Not in open
-							open.push_front(vertices[s->xPos - 1][s->yPos]);
+							open.emplace(open.begin(), vertices[s->xPos - 1][s->yPos]);
 							vertices[s->xPos - 1][s->yPos]->UpdateParent(*vertices[s->xPos][s->yPos]);
 							vertices[s->xPos - 1][s->yPos]->UpdateG();
 						}
@@ -1396,7 +1398,7 @@ using namespace std;
 		Vertex* currentVert = vertices[endX][endY];
 		while (currentVert->ReturnParent() != nullptr)
 		{
-			shortestPath.push_front(currentVert);
+			shortestPath.emplace(shortestPath.begin(), currentVert);
 			currentVert = currentVert->ReturnParent();
 		}
 
