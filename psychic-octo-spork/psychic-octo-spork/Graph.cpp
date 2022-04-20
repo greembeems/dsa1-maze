@@ -9,9 +9,7 @@ using namespace std;
 		height = h;
 		width = w;
 		data = mData;
-
 		totalV = height * width;
-
 		generatedVertex = nullptr;
 
 		Setup();
@@ -42,7 +40,6 @@ using namespace std;
 
 		// Set up adjacency matrix
 		for (int i = 0; i < height; i++) {
-
 			vector<int> row;
 
 			for (int j = 0; j < width; j++) {
@@ -57,7 +54,6 @@ using namespace std;
 
 			for (int i = 0; i < height; i++)
 			{
-
 				//Non-Edge case
 				if (i != 0 && j != 0 && i != height - 1 && j != width - 1)
 				{
@@ -190,7 +186,6 @@ using namespace std;
 							adjacency[i][j - 1] = 1;
 						}
 					}
-
 				}
 
 				//"Right wall" case
@@ -221,11 +216,9 @@ using namespace std;
 						adjacency[i][j - 1] = 1;
 					}
 				}
-
 			}
 			adjacency.push_back(row);
 		}
-
 	}
 
 	// Methods
@@ -235,11 +228,9 @@ using namespace std;
 	/// </summary>
 	bool Graph::aStar(int startX, int startY, int endX, int endY)
 	{
-
 		// Add starting vertex to closed list
 		closed.emplace(closed.begin(), vertices[startX][startY]);
 		
-
 		vertices[startX][startY]->g = 0;
 
 		// Add all adjacent tiles to open list
@@ -357,7 +348,6 @@ using namespace std;
 				vertices[startX - 1][startY]->UpdateParent(*vertices[startX][startY]);
 				vertices[startX - 1][startY]->UpdateG();
 			}
-
 		}
 
 		//"Right wall" case
@@ -419,9 +409,7 @@ using namespace std;
 			open.remove_if(*s);
 			closed.emplace(closed.begin(), s);
 			
-
 			// For each square, t, in s's valid adjacent tiles
-			
 
 			//Non-Edge case
 			if (s->xPos != 0 && s->yPos != 0 && s->yPos != height - 1 && s->xPos != width - 1)
@@ -455,7 +443,6 @@ using namespace std;
 					}
 					else { //Not in closed list
 						// if t is not in open list, add and compute score
-
 						bool inOpen = false;
 						for (auto v : open)
 						{
@@ -481,7 +468,6 @@ using namespace std;
 							}
 						}
 					}
-
 				}
 
 				//Left
@@ -538,9 +524,7 @@ using namespace std;
 								vertices[s->xPos - 1][s->yPos]->UpdateParent(*s);
 							}
 						}
-
 					}
-
 				}
 
 				//Down
@@ -598,7 +582,6 @@ using namespace std;
 							}
 						}
 					}
-
 				}
 
 				//Up
@@ -656,7 +639,6 @@ using namespace std;
 							}
 						}
 					}
-
 				}
 			}
 
@@ -719,7 +701,6 @@ using namespace std;
 								}
 							}
 						}
-
 					}
 				}
 
@@ -778,9 +759,7 @@ using namespace std;
 									vertices[s->xPos - 1][s->yPos]->UpdateParent(*s);
 								}
 							}
-
 						}
-
 					}
 				}
 				
@@ -839,9 +818,7 @@ using namespace std;
 							}
 						}
 					}
-
 				}
-
 			}
 
 			//"Left wall" case
@@ -901,7 +878,6 @@ using namespace std;
 							}
 						}
 					}
-
 				}
 
 				if (s->yPos != 0) {
@@ -960,7 +936,6 @@ using namespace std;
 								}
 							}
 						}
-
 					}
 				}
 
@@ -1020,7 +995,6 @@ using namespace std;
 								}
 							}
 						}
-
 					}
 				}
 			}
@@ -1083,7 +1057,6 @@ using namespace std;
 							}
 						}
 					}
-
 				}
 
 				//Right
@@ -1142,7 +1115,6 @@ using namespace std;
 								}
 							}
 						}
-
 					}
 				}
 
@@ -1201,12 +1173,9 @@ using namespace std;
 									vertices[s->xPos - 1][s->yPos]->UpdateParent(*s);
 								}
 							}
-
 						}
-
 					}
 				}
-
 			}
 
 			//"Right wall" case
@@ -1268,11 +1237,10 @@ using namespace std;
 								}
 							}
 						}
-
 					}
 				}
 
-				//Down
+				// Down
 				if (s->yPos != height - 1) {
 					if (adjacency[s->xPos][s->yPos + 1] != NULL) {
 
@@ -1286,6 +1254,8 @@ using namespace std;
 						}
 
 						bool inClosed = false;
+						// loops through closed list & check positions
+						// if in closed, continue program & set to true
 						for (auto v : closed)
 						{
 							if (v->xPos == s->xPos && v->yPos == (s->yPos + 1))
@@ -1297,10 +1267,10 @@ using namespace std;
 
 						if (inClosed)
 						{
-							//In closed list
+							// In closed list
 							// if t is in closed list, ignore it
 						}
-						else { //Not in closed list
+						else { // Not in closed list
 							// if t is not in open list, add and compute score
 
 							bool inOpen = false;
@@ -1313,7 +1283,7 @@ using namespace std;
 								}
 							}
 
-							//Iterator returns last if the vertex is not found
+							// Iterator returns last if the vertex is not found
 							if (!inOpen) { //Not in open
 								open.emplace(open.begin(), vertices[s->xPos][s->yPos + 1]);
 								vertices[s->xPos][s->yPos + 1]->UpdateParent(*vertices[s->xPos][s->yPos]);
@@ -1328,11 +1298,10 @@ using namespace std;
 								}
 							}
 						}
-
 					}
 				}
 
-				//Left
+				// Left
 				if (adjacency[s->xPos - 1][s->yPos] != NULL) {
 
 					// if end square is on open list, add to close list
@@ -1356,10 +1325,10 @@ using namespace std;
 
 					if (inClosed)
 					{
-						//In closed list
+						// In closed list
 						// if t is in closed list, ignore it
 					}
-					else { //Not in closed list
+					else { // Not in closed list
 						// if t is not in open list, add and compute score
 
 						bool inOpen = false;
@@ -1386,12 +1355,9 @@ using namespace std;
 								vertices[s->xPos - 1][s->yPos]->UpdateParent(*s);
 							}
 						}
-
 					}
-
 				}
 			}
-
 		}
 
 		// go backwards from end tile parent by parent to learn exact shortest path
@@ -1404,4 +1370,64 @@ using namespace std;
 
 		// done!
 		return true;
+	}
+
+	// THIS IS A DRAFT FOR A HELPER METHOD! DO NOT USE YET!!
+	void Graph::Check(Vertex* v, Vertex* s, int xShift, int yShift, int endX, int endY, bool checking)
+	{
+		if (adjacency[s->xPos + xShift][s->yPos + yShift] != NULL) {
+
+			// if end square is on open list, add to close list
+			if (s->xPos + xShift == endX && s->yPos + yShift == endY) {
+
+				closed.emplace(closed.begin(), vertices[s->xPos + xShift][s->yPos + yShift]);
+				vertices[s->xPos + xShift][s->yPos + yShift]->UpdateParent(*s);
+				checking = false;
+				break; // We're going to have to find a way to fix this but that's a later issue
+			}
+
+			bool inClosed = false;
+			for (auto v : closed)
+			{
+				if (v->xPos == (s->xPos + xShift) && v->yPos == s->yPos + yShift)
+				{
+					inClosed = true;
+					break;
+				}
+			}
+
+			if (inClosed)
+			{
+				// In closed list
+				// if t is in closed list, ignore it
+			}
+			else { // Not in closed list
+				// if t is not in open list, add and compute score
+
+				bool inOpen = false;
+				for (auto v : open)
+				{
+					if (v->xPos == (s->xPos + xShift) && v->yPos == s->yPos + yShift)
+					{
+						inOpen = true;
+						break;
+					}
+				}
+
+				// Iterator returns last if the vertex is not found
+				if (!inOpen) { // Not in open
+					open.emplace(open.begin(), vertices[s->xPos + xShift][s->yPos + yShift]);
+					vertices[s->xPos + xShift][s->yPos + yShift]->UpdateParent(*vertices[s->xPos][s->yPos]);
+					vertices[s->xPos + xShift][s->yPos + yShift]->UpdateG();
+				}
+				else { // In open
+					//Check if F score is lower on current path
+					if (vertices[s->xPos + xShift][s->yPos + yShift]->f >= (vertices[s->xPos + xShift][s->yPos + yShift]->ReturnG() + vertices[s->xPos - 1][s->yPos]->heuristic)) {
+						//Update score and parent
+						vertices[s->xPos + xShift][s->yPos + yShift]->UpdateF();
+						vertices[s->xPos + xShift][s->yPos + yShift]->UpdateParent(*s);
+					}
+				}
+			}
+		}
 	}
