@@ -1383,51 +1383,98 @@ using namespace std;
 				closed.emplace(closed.begin(), vertices[s->xPos + xShift][s->yPos + yShift]);
 				vertices[s->xPos + xShift][s->yPos + yShift]->UpdateParent(*s);
 				checking = false;
-				break; // We're going to have to find a way to fix this but that's a later issue
+				//break;  We're going to have to find a way to fix this but that's a later issue 
+				// To fix this I just made the other part of the method in an Else{}
 			}
 
-			bool inClosed = false;
-			for (auto v : closed)
+			else
 			{
-				if (v->xPos == (s->xPos + xShift) && v->yPos == s->yPos + yShift)
-				{
-					inClosed = true;
-					break;
-				}
-			}
-
-			if (inClosed)
-			{
-				// In closed list
-				// if t is in closed list, ignore it
-			}
-			else { // Not in closed list
-				// if t is not in open list, add and compute score
-
-				bool inOpen = false;
-				for (auto v : open)
+				bool inClosed = false;
+				for (auto v : closed)
 				{
 					if (v->xPos == (s->xPos + xShift) && v->yPos == s->yPos + yShift)
 					{
-						inOpen = true;
+						inClosed = true;
 						break;
 					}
 				}
 
-				// Iterator returns last if the vertex is not found
-				if (!inOpen) { // Not in open
-					open.emplace(open.begin(), vertices[s->xPos + xShift][s->yPos + yShift]);
-					vertices[s->xPos + xShift][s->yPos + yShift]->UpdateParent(*vertices[s->xPos][s->yPos]);
-					vertices[s->xPos + xShift][s->yPos + yShift]->UpdateG();
+				if (inClosed)
+				{
+					// In closed list
+					// if t is in closed list, ignore it
 				}
-				else { // In open
-					//Check if F score is lower on current path
-					if (vertices[s->xPos + xShift][s->yPos + yShift]->f >= (vertices[s->xPos + xShift][s->yPos + yShift]->ReturnG() + vertices[s->xPos - 1][s->yPos]->heuristic)) {
-						//Update score and parent
-						vertices[s->xPos + xShift][s->yPos + yShift]->UpdateF();
-						vertices[s->xPos + xShift][s->yPos + yShift]->UpdateParent(*s);
+				else { // Not in closed list
+					// if t is not in open list, add and compute score
+
+					bool inOpen = false;
+					for (auto v : open)
+					{
+						if (v->xPos == (s->xPos + xShift) && v->yPos == s->yPos + yShift)
+						{
+							inOpen = true;
+							break;
+						}
+					}
+
+					// Iterator returns last if the vertex is not found
+					if (!inOpen) { // Not in open
+						open.emplace(open.begin(), vertices[s->xPos + xShift][s->yPos + yShift]);
+						vertices[s->xPos + xShift][s->yPos + yShift]->UpdateParent(*vertices[s->xPos][s->yPos]);
+						vertices[s->xPos + xShift][s->yPos + yShift]->UpdateG();
+					}
+					else { // In open
+						//Check if F score is lower on current path
+						if (vertices[s->xPos + xShift][s->yPos + yShift]->f >= (vertices[s->xPos + xShift][s->yPos + yShift]->ReturnG() + vertices[s->xPos - 1][s->yPos]->heuristic)) {
+							//Update score and parent
+							vertices[s->xPos + xShift][s->yPos + yShift]->UpdateF();
+							vertices[s->xPos + xShift][s->yPos + yShift]->UpdateParent(*s);
+						}
 					}
 				}
 			}
 		}
+	}
+
+	// Method to reverse the contents of the list
+	void Graph::Reverse(vector<Vertex*> list)
+	{
+		vector<Vertex*> reversedList;
+
+		// Go though each element in the vector and reverse the elements 
+		// by making a new vector and adding the elements in reversed order
+		for (size_t i = 0; i < list.size() - 1; i++)
+		{
+			reversedList[i] = list[list.size() - (i + 1)];
+		}
+
+		// Make the list the reversedList we just made
+		list = reversedList;
+	}
+
+	// Method used to get the shortest path
+	// Used this in the mazeFunction.cpp in the GetNextPositions method 
+	vector<Vertex*> Graph::GetShortestPath()
+	{
+		return shortestPath;
+	}
+	
+	// Returns true if the vertex is in the vector and can be removed 
+	// Does do anything if the vertex isnt in the vector
+	bool Graph::Remove_if(vector<Vertex*> list, Vertex* s)
+	{
+		// Check to see if the vertex is in the vector
+		for (size_t i = 0; i < list.size(); i++)
+		{
+			// If it is then remove it and return true
+			if (list[i] = s) 
+			{
+				// Remove the vertex 
+
+
+				return true;
+			}
+		}
+
+		return false;
 	}

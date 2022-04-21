@@ -31,7 +31,7 @@ class Graph
 	vector<Vertex*> closed;
 
 	// Methods
-	void Check(Vertex* v, Vertex* s, int xShift, int yShift, int endX, int endY, bool checking);
+	
 public:
 	
 	vector<Vertex*> shortestPath;
@@ -41,4 +41,16 @@ public:
 	Graph(const int** mData, int h, int w);
 
 	void Setup();
+
+	void Check(Vertex* v, Vertex* s, int xShift, int yShift, int endX, int endY, bool checking);
+
+	void Reverse(vector<Vertex*> list);
+
+	vector<Vertex*> GetShortestPath();
+
+	bool Remove_if(vector<Vertex*> list , Vertex* s);
+
+	
+
+	
 };

@@ -5,7 +5,7 @@
 #include "Vertex.h"
 #include "Graph.h"
 
-const char* team = "Holly A & Josh T";
+const char* team = "Holly A & Josh T & Nash F";
 
 // Maze Data
 int mWidth;
@@ -64,7 +64,7 @@ __declspec(dllexport) bool GetNextPosition(int& xpos, int& ypos)
     {
         aGraph = new Graph(mData, mHeight, mWidth);
         aGraph->aStar(sXPos, sYPos, eXPos, eYPos);
-        aGraph->shortestPath.reverse();
+        aGraph->Reverse(aGraph->GetShortestPath());
     }
 
     Vertex *vert = aGraph->shortestPath.back();
