@@ -406,7 +406,7 @@ using namespace std;
 			}
 
 			// Remove s from open list & add to closed
-			open.remove_if(*s);
+			Remove_if(open, s);
 			closed.emplace(closed.begin(), s);
 			
 			// For each square, t, in s's valid adjacent tiles
@@ -1387,6 +1387,7 @@ using namespace std;
 				// To fix this I just made the other part of the method in an Else{}
 			}
 
+			// Added this Else here to fix?
 			else
 			{
 				bool inClosed = false;
@@ -1470,8 +1471,11 @@ using namespace std;
 			if (list[i] = s) 
 			{
 				// Remove the vertex 
-
-
+				for (size_t x = i; x < list.size()-1; x++) 
+				{
+					list[x] = list[x + 1];
+				}
+				list[list.size() - 1] = nullptr;
 				return true;
 			}
 		}
