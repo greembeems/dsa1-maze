@@ -50,6 +50,8 @@ public:
 
 	bool Remove_if(vector<Vertex*> list , Vertex* s);
 
+	bool Check_if(vector<Vertex*> list, Vertex* s);
+
 	
 
 	

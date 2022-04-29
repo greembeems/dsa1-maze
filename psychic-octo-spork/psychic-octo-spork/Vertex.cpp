@@ -25,9 +25,9 @@
 	/// Assigns the parent vertex to the vertex
 	/// </summary>
 	/// <param name="newParent">Parent vertex</param>
-	void Vertex::UpdateParent(Vertex& newParent)
+	void Vertex::UpdateParent(Vertex* newParent)
 	{
-		parent = &newParent;
+		parent = newParent;
 	}
 
 	void Vertex::GenerateHeuristic(int totalDistance) {
@@ -62,6 +62,7 @@
 	void Vertex::UpdateF() {
 		f = g + heuristic;
 	}
+
 
 	Vertex* Vertex::ReturnParent()
 	{

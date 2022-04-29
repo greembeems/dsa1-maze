@@ -19,7 +19,7 @@ public:
 	Vertex(int x, int y);
 
 	// Methods
-	void UpdateParent(Vertex& newParent);
+	void UpdateParent(Vertex* newParent);
 
 	void UpdateVisited();
 
