@@ -44,7 +44,7 @@ public:
 
 	void Check(Vertex* v, Vertex* s, int xShift, int yShift, int endX, int endY, bool checking);
 
-	void Reverse(vector<Vertex*> list);
+	void Reverse();
 
 	vector<Vertex*> GetShortestPath();
 

@@ -2,13 +2,15 @@
 #include "Vertex.h"
 
 	// Constructor
-	Vertex::Vertex(int x, int y)
+	Vertex::Vertex(int x, int y, bool wall)
 	{
 		visited = false;
 
 		// x and y position of the vertex
 		xPos = x;
 		yPos = y;
+
+		isWall = wall;
 
 		f = g + heuristic;
 
