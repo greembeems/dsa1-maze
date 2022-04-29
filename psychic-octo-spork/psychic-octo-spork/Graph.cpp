@@ -55,7 +55,6 @@ using namespace std;
 
 		// Set up adjacency matrix
 		for (int j = 0; j < width; j++) {
-			vector<int> row;
 
 			for (int i = 0; i < height; i++)
 			{
@@ -222,7 +221,7 @@ using namespace std;
 					}
 				}
 			}
-			adjacency.push_back(row);
+			
 		}
 	}
 
@@ -234,9 +233,9 @@ using namespace std;
 	bool Graph::aStar(int startX, int startY, int endX, int endY)
 	{
 		// Add starting vertex to closed list
-		closed.emplace(closed.begin(), vertices[startX][startY]);
+		closed.emplace(closed.begin(), vertices[startY][startX]);
 		
-		vertices[startX][startY]->g = 0;
+		vertices[startY][startX]->g = 0;
 
 		// Add all adjacent tiles to open list
 
@@ -244,31 +243,31 @@ using namespace std;
 		if (startX != 0 && startY != 0 && startY != height - 1 && startX != width - 1)
 		{
 			//Right
-			if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL && !Check_if(open, vertices[startX + 1][startY]) && !vertices[startX + 1][startY]->isWall) {
-				open.emplace(open.begin(), vertices[startX + 1][startY]);
-				vertices[startX + 1][startY]->UpdateParent(vertices[startX][startY]);
-				vertices[startX + 1][startY]->UpdateG();
+			if (adjacency[startY][startX + 1] == 1 && adjacency[startY][startX + 1] != NULL && !Check_if(open, vertices[startY][startX + 1]) && !vertices[startY][startX + 1]->isWall) {
+				open.emplace(open.begin(), vertices[startY][startX + 1]);
+				vertices[startY][startX + 1]->UpdateParent(vertices[startY][startX]);
+				vertices[startY][startX + 1]->UpdateG();
 			}
 			
 			//Left
-			if (adjacency[startX - 1][startY] != NULL && adjacency[startX - 1][startY] == 1 && !Check_if(open, vertices[startX - 1][startY]) && !vertices[startX - 1][startY]->isWall) {
-				open.emplace(open.begin(), vertices[startX - 1][startY]);
-				vertices[startX - 1][startY]->UpdateParent(vertices[startX][startY]);
-				vertices[startX - 1][startY]->UpdateG();
+			if (adjacency[startY][startX - 1] != NULL && adjacency[startY][startX - 1] == 1 && !Check_if(open, vertices[startY][startX - 1]) && !vertices[startY][startX - 1]->isWall) {
+				open.emplace(open.begin(), vertices[startY][startX - 1]);
+				vertices[startY][startX - 1]->UpdateParent(vertices[startY][startX]);
+				vertices[startY][startX - 1]->UpdateG();
 			}
 			
 			//Down
-			if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL && !Check_if(open, vertices[startX][startY + 1]) && !vertices[startX][startY + 1]->isWall) {
-				open.emplace(open.begin(), vertices[startX][startY + 1]);
-				vertices[startX][startY + 1]->UpdateParent(vertices[startX][startY]);
-				vertices[startX][startY + 1]->UpdateG();
+			if (adjacency[startY + 1][startX] == 1 && adjacency[startY + 1][startX] != NULL && !Check_if(open, vertices[startY + 1][startX]) && !vertices[startY + 1][startX]->isWall) {
+				open.emplace(open.begin(), vertices[startY + 1][startX]);
+				vertices[startY + 1][startX]->UpdateParent(vertices[startY][startX]);
+				vertices[startY + 1][startX]->UpdateG();
 			}
 			
 			//Up
-			if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL && !Check_if(open, vertices[startX][startY - 1]) && !vertices[startX][startY - 1]->isWall) {
-				open.emplace(open.begin(), vertices[startX][startY - 1]);
-				vertices[startX][startY - 1]->UpdateParent(vertices[startX][startY]);
-				vertices[startX][startY - 1]->UpdateG();
+			if (adjacency[startY - 1][startX] == 1 && adjacency[startY - 1][startX] != NULL && !Check_if(open, vertices[startY - 1][startX]) && !vertices[startY - 1][startX]->isWall) {
+				open.emplace(open.begin(), vertices[startY - 1][startX]);
+				vertices[startY - 1][startX]->UpdateParent(vertices[startY][startX]);
+				vertices[startY - 1][startX]->UpdateG();
 			}
 		}
 
@@ -277,55 +276,55 @@ using namespace std;
 
 			//Up
 			if (startX != 0) {
-				if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL && !Check_if(open, vertices[startX][startY - 1]) && !vertices[startX][startY - 1]->isWall) {
-					open.emplace(open.begin(), vertices[startX][startY - 1]);
-					vertices[startX][startY - 1]->UpdateParent(vertices[startX][startY]);
-					vertices[startX][startY - 1]->UpdateG();
+				if (adjacency[startY - 1][startX] == 1 && adjacency[startY - 1][startX] != NULL && !Check_if(open, vertices[startY - 1][startX]) && !vertices[startY - 1][startX]->isWall) {
+					open.emplace(open.begin(), vertices[startY - 1][startX]);
+					vertices[startY - 1][startX]->UpdateParent(vertices[startY][startX]);
+					vertices[startY - 1][startX]->UpdateG();
 				}
 			}
 
 			//Right
 			if (startX != width - 1) {
 				//if right is null
-				if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL && !Check_if(open, vertices[startX + 1][startY]) && !vertices[startX + 1][startY]->isWall) {
-					open.emplace(open.begin(), vertices[startX + 1][startY]);
-					vertices[startX + 1][startY]->UpdateParent(vertices[startX][startY]);
-					vertices[startX + 1][startY]->UpdateG();
+				if (adjacency[startY][startX + 1] == 1 && adjacency[startY][startX + 1] != NULL && !Check_if(open, vertices[startY][startX + 1]) && !vertices[startY][startX + 1]->isWall) {
+					open.emplace(open.begin(), vertices[startY][startX + 1]);
+					vertices[startY][startX + 1]->UpdateParent(vertices[startY][startX]);
+					vertices[startY][startX + 1]->UpdateG();
 				}
 			}
 
 			//Down
-			if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL && !Check_if(open, vertices[startX][startY + 1]) && !vertices[startX][startY + 1]->isWall) {
-				open.emplace(open.begin(), vertices[startX][startY + 1]);
-				vertices[startX][startY + 1]->UpdateParent(vertices[startX][startY]);
-				vertices[startX][startY + 1]->UpdateG();
+			if (adjacency[startY + 1][startX] == 1 && adjacency[startY + 1][startX] != NULL && !Check_if(open, vertices[startY + 1][startX]) && !vertices[startY + 1][startX]->isWall) {
+				open.emplace(open.begin(), vertices[startY + 1][startX]);
+				vertices[startY + 1][startX]->UpdateParent(vertices[startY][startX]);
+				vertices[startY + 1][startX]->UpdateG();
 			}
 		}
 
 		//"Left wall" case
 		if (startX == 0) {
 			//Right
-			if (adjacency[startX + 1][startY] == 1 && adjacency[startX + 1][startY] != NULL && !Check_if(open, vertices[startX + 1][startY]) && !vertices[startX + 1][startY]->isWall) {
-				open.emplace(open.begin(), vertices[startX + 1][startY]);
-				vertices[startX + 1][startY]->UpdateParent(vertices[startX][startY]);
-				vertices[startX + 1][startY]->UpdateG();
+			if (adjacency[startY][startX + 1] == 1 && adjacency[startY][startX + 1] != NULL && !Check_if(open, vertices[startY][startX + 1]) && !vertices[startY][startX + 1]->isWall) {
+				open.emplace(open.begin(), vertices[startY][startX + 1]);
+				vertices[startY][startX + 1]->UpdateParent(vertices[startY][startX]);
+				vertices[startY][startX + 1]->UpdateG();
 			}
 
 			if (startY != 0) {
 				//Up
-				if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL && !Check_if(open, vertices[startX][startY - 1]) && !vertices[startX][startY - 1]->isWall) {
-					open.emplace(open.begin(), vertices[startX][startY - 1]);
-					vertices[startX][startY - 1]->UpdateParent(vertices[startX][startY]);
-					vertices[startX][startY - 1]->UpdateG();
+				if (adjacency[startY - 1][startX] == 1 && adjacency[startY - 1][startX] != NULL && !Check_if(open, vertices[startY - 1][startX]) && !vertices[startY - 1][startX]->isWall) {
+					open.emplace(open.begin(), vertices[startY - 1][startX]);
+					vertices[startY - 1][startX]->UpdateParent(vertices[startY][startX]);
+					vertices[startY - 1][startX]->UpdateG();
 				}
 			}
 
 			if (startY != height - 1) {
 				//Down
-				if (adjacency[startX][startY + 1] == 1 && adjacency[startX][startY + 1] != NULL && !Check_if(open, vertices[startX][startY + 1]) && !vertices[startX][startY + 1]->isWall) {
-					open.emplace(open.begin(), vertices[startX][startY + 1]);
-					vertices[startX][startY + 1]->UpdateParent(vertices[startX][startY]);
-					vertices[startX][startY + 1]->UpdateG();
+				if (adjacency[startY + 1][startX] == 1 && adjacency[startY + 1][startX] != NULL && !Check_if(open, vertices[startY + 1][startX]) && !vertices[startY + 1][startX]->isWall) {
+					open.emplace(open.begin(), vertices[startY + 1][startX]);
+					vertices[startY + 1][startX]->UpdateParent(vertices[startY][startX]);
+					vertices[startY + 1][startX]->UpdateG();
 				}
 			}
 		}
@@ -334,24 +333,24 @@ using namespace std;
 		if (startY == height - 1) {
 
 			//Up
-			if (adjacency[startX][startY - 1] == 1 && adjacency[startX][startY - 1] != NULL && !Check_if(open, vertices[startX][startY - 1]) && !vertices[startX][startY + 1]->isWall) {
-				open.emplace(open.begin(), vertices[startX][startY - 1]);
-				vertices[startX][startY - 1]->UpdateParent(vertices[startX][startY]);
-				vertices[startX][startY - 1]->UpdateG();
+			if (adjacency[startY - 1][startX] == 1 && adjacency[startY - 1][startX] != NULL && !Check_if(open, vertices[startY - 1][startX]) && !vertices[startY + 1][startX]->isWall) {
+				open.emplace(open.begin(), vertices[startY - 1][startX]);
+				vertices[startY - 1][startX]->UpdateParent(vertices[startY][startX]);
+				vertices[startY - 1][startX]->UpdateG();
 			}
 
 			//Right
-			if (startX != width - 1 && !Check_if(open, vertices[startX + 1][startY]) && !vertices[startX + 1][startY]->isWall) {
-				open.emplace(open.begin(), vertices[startX + 1][startY]);
-				vertices[startX + 1][startY]->UpdateParent(vertices[startX][startY]);
-				vertices[startX + 1][startY]->UpdateG();
+			if (startX != width - 1 && !Check_if(open, vertices[startY][startX + 1]) && !vertices[startY][startX + 1]->isWall) {
+				open.emplace(open.begin(), vertices[startY][startX + 1]);
+				vertices[startY][startX + 1]->UpdateParent(vertices[startY][startX]);
+				vertices[startY][startX + 1]->UpdateG();
 			}
 
 			//Left
-			if (startX != 0 && !Check_if(open, vertices[startX - 1][startY]) && !vertices[startX - 1][startY]->isWall) {
-				open.emplace(open.begin(), vertices[startX - 1][startY]);
-				vertices[startX - 1][startY]->UpdateParent(vertices[startX][startY]);
-				vertices[startX - 1][startY]->UpdateG();
+			if (startX != 0 && !Check_if(open, vertices[startY][startX - 1]) && !vertices[startY][startX - 1]->isWall) {
+				open.emplace(open.begin(), vertices[startY][startX - 1]);
+				vertices[startY][startX - 1]->UpdateParent(vertices[startY][startX]);
+				vertices[startY][startX - 1]->UpdateG();
 			}
 		}
 
@@ -359,24 +358,24 @@ using namespace std;
 		if (startX == width - 1) {
 
 			//Up
-			if (startY != 0 && !Check_if(open, vertices[startX][startY - 1]) && !vertices[startX][startY - 1]->isWall) {
-				open.emplace(open.begin(), vertices[startX][startY - 1]);
-				vertices[startX][startY - 1]->UpdateParent(vertices[startX][startY]);
-				vertices[startX][startY - 1]->UpdateG();
+			if (startY != 0 && !Check_if(open, vertices[startY - 1][startX]) && !vertices[startY - 1][startX]->isWall) {
+				open.emplace(open.begin(), vertices[startY - 1][startX]);
+				vertices[startY - 1][startX]->UpdateParent(vertices[startY][startX]);
+				vertices[startY - 1][startX]->UpdateG();
 			}
 
 			//Down
-			if (startY != height - 1 && !Check_if(open, vertices[startX][startY + 1]) && !vertices[startX][startY + 1]->isWall) {
-				open.emplace(open.begin(), vertices[startX][startY + 1]);
-				vertices[startX][startY + 1]->UpdateParent(vertices[startX][startY]);
-				vertices[startX][startY + 1]->UpdateG();
+			if (startY != height - 1 && !Check_if(open, vertices[startY + 1][startX]) && !vertices[startY + 1][startX]->isWall) {
+				open.emplace(open.begin(), vertices[startY + 1][startX]);
+				vertices[startY + 1][startX]->UpdateParent(vertices[startY][startX]);
+				vertices[startY + 1][startX]->UpdateG();
 			}
 
 			//Left
-			if (adjacency[startX - 1][startY] != NULL && adjacency[startX - 1][startY] == 1 && !Check_if(open, vertices[startX - 1][startY]) && !vertices[startX - 1][startY]->isWall) {
-				open.emplace(open.begin(), vertices[startX - 1][startY]);
-				vertices[startX - 1][startY]->UpdateParent(vertices[startX][startY]);
-				vertices[startX - 1][startY]->UpdateG();
+			if (adjacency[startY][startX - 1] != NULL && adjacency[startY][startX - 1] == 1 && !Check_if(open, vertices[startY][startX - 1]) && !vertices[startY][startX - 1]->isWall) {
+				open.emplace(open.begin(), vertices[startY][startX - 1]);
+				vertices[startY][startX - 1]->UpdateParent(vertices[startY][startX]);
+				vertices[startY][startX - 1]->UpdateG();
 			}
 		}
 
@@ -420,58 +419,58 @@ using namespace std;
 			if (s->xPos != 0 && s->yPos != 0 && s->yPos != height - 1 && s->xPos != width - 1)
 			{
 				//Right
-				if (adjacency[s->xPos + 1][s->yPos] != NULL) {
-					if (Check_if(closed, vertices[s->xPos + 1][s->yPos]) || vertices[s->xPos + 1][s->yPos]->isWall)
+				if (adjacency[s->yPos][s->xPos + 1] != NULL) {
+					if (Check_if(closed, vertices[s->yPos][s->xPos + 1]) || vertices[s->yPos][s->xPos + 1]->isWall)
 					{
 						//In closed list
 						// if t is in closed list, ignore it
 					}
 					else {
-						if (!Check_if(open, vertices[s->xPos + 1][s->yPos])) { //Not in open
-							open.emplace(open.begin(), vertices[s->xPos + 1][s->yPos]);
-							vertices[s->xPos + 1][s->yPos]->UpdateParent(vertices[s->xPos][s->yPos]);
-							vertices[s->xPos + 1][s->yPos]->UpdateG();
+						if (!Check_if(open, vertices[s->yPos][s->xPos + 1])) { //Not in open
+							open.emplace(open.begin(), vertices[s->yPos][s->xPos + 1]);
+							vertices[s->yPos][s->xPos + 1]->UpdateParent(vertices[s->yPos][s->xPos]);
+							vertices[s->yPos][s->xPos + 1]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s->xPos + 1][s->yPos]->f <= (vertices[s->xPos + 1][s->yPos]->ReturnG() + vertices[s->xPos + 1][s->yPos]->heuristic)) {
+							if (vertices[s->yPos][s->xPos + 1]->f <= (vertices[s->yPos][s->xPos + 1]->ReturnG() + vertices[s->yPos][s->xPos + 1]->heuristic)) {
 								//Update score and parent
-								vertices[s->xPos + 1][s->yPos]->UpdateF();
-								vertices[s->xPos + 1][s->yPos]->UpdateParent(s);
+								vertices[s->yPos][s->xPos + 1]->UpdateF();
+								vertices[s->yPos][s->xPos + 1]->UpdateParent(s);
 							}
 						}
 					}
 					
 					// if end square is on open list, add to close list
 					if(s->xPos + 1 == endX && s->yPos == endY) {
-						closed.emplace(closed.begin(), vertices[s->xPos + 1][s->yPos]);
-						vertices[s->xPos + 1][s->yPos]->UpdateParent(s);
+						closed.emplace(closed.begin(), vertices[s->yPos][s->xPos + 1]);
+						vertices[s->yPos][s->xPos + 1]->UpdateParent(s);
 						checking = false;
 						break;
 					}
 				}
 
 				//Left
-				if (adjacency[s->xPos - 1][s->yPos] != NULL) {
+				if (adjacency[s->yPos][s->xPos - 1] != NULL) {
 
-					if (Check_if(closed, vertices[s->xPos - 1][s->yPos]) || vertices[s->xPos - 1][s->yPos]->isWall)
+					if (Check_if(closed, vertices[s->yPos][s->xPos - 1]) || vertices[s->yPos][s->xPos - 1]->isWall)
 					{
 						//In closed list
 						// if t is in closed list, ignore it
 					}
 					else { //Not in closed list
 						// if t is not in open list, add and compute score
-						if (!Check_if(open, vertices[s->xPos - 1][s->yPos])) { //Not in open
-							open.emplace(open.begin(), vertices[s->xPos - 1][s->yPos]);
-							vertices[s->xPos - 1][s->yPos]->UpdateParent(vertices[s->xPos][s->yPos]);
-							vertices[s->xPos - 1][s->yPos]->UpdateG();
+						if (!Check_if(open, vertices[s->yPos][s->xPos - 1])) { //Not in open
+							open.emplace(open.begin(), vertices[s->yPos][s->xPos - 1]);
+							vertices[s->yPos][s->xPos - 1]->UpdateParent(vertices[s->yPos][s->xPos]);
+							vertices[s->yPos][s->xPos - 1]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s->xPos - 1][s->yPos]->f <= (vertices[s->xPos - 1][s->yPos]->ReturnG() + vertices[s->xPos - 1][s->yPos]->heuristic)) {
+							if (vertices[s->yPos][s->xPos - 1]->f <= (vertices[s->yPos][s->xPos - 1]->ReturnG() + vertices[s->yPos][s->xPos - 1]->heuristic)) {
 								//Update score and parent
-								vertices[s->xPos - 1][s->yPos]->UpdateF();
-								vertices[s->xPos - 1][s->yPos]->UpdateParent(s);
+								vertices[s->yPos][s->xPos - 1]->UpdateF();
+								vertices[s->yPos][s->xPos - 1]->UpdateParent(s);
 							}
 						}
 					}
@@ -479,34 +478,34 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if(s->xPos - 1 == endX && s->yPos == endY) {
 
-						closed.emplace(closed.begin(), vertices[s->xPos - 1][s->yPos]);
-						vertices[s->xPos - 1][s->yPos]->UpdateParent(s);
+						closed.emplace(closed.begin(), vertices[s->yPos][s->xPos - 1]);
+						vertices[s->yPos][s->xPos - 1]->UpdateParent(s);
 						checking = false;
 						break;
 					}
 				}
 
 				//Down
-				if (adjacency[s->xPos][s->yPos + 1] != NULL) {
+				if (adjacency[s->yPos + 1][s->xPos] != NULL) {
 
-					if (Check_if(closed, vertices[s->xPos][s->yPos + 1]) || vertices[s->xPos][s->yPos + 1]->isWall)
+					if (Check_if(closed, vertices[s->yPos + 1][s->xPos]) || vertices[s->yPos + 1][s->xPos]->isWall)
 					{
 						//In closed list
 						// if t is in closed list, ignore it
 					}
 					else { //Not in closed list
 						// if t is not in open list, add and compute score
-						if (!Check_if(open, vertices[s->xPos][s->yPos + 1])) { //Not in open
-							open.emplace(open.begin(), vertices[s->xPos][s->yPos + 1]);
-							vertices[s->xPos][s->yPos + 1]->UpdateParent(vertices[s->xPos][s->yPos]);
-							vertices[s->xPos][s->yPos + 1]->UpdateG();
+						if (!Check_if(open, vertices[s->yPos + 1][s->xPos])) { //Not in open
+							open.emplace(open.begin(), vertices[s->yPos + 1][s->xPos]);
+							vertices[s->yPos + 1][s->xPos]->UpdateParent(vertices[s->yPos][s->xPos]);
+							vertices[s->yPos + 1][s->xPos]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s->xPos][s->yPos + 1]->f <= (vertices[s->xPos][s->yPos + 1]->ReturnG() + vertices[s->xPos][s->yPos + 1]->heuristic)) {
+							if (vertices[s->yPos + 1][s->xPos]->f <= (vertices[s->yPos + 1][s->xPos]->ReturnG() + vertices[s->yPos + 1][s->xPos]->heuristic)) {
 								//Update score and parent
-								vertices[s->xPos][s->yPos + 1]->UpdateF();
-								vertices[s->xPos][s->yPos + 1]->UpdateParent(s);
+								vertices[s->yPos + 1][s->xPos]->UpdateF();
+								vertices[s->yPos + 1][s->xPos]->UpdateParent(s);
 							}
 						}
 					}
@@ -514,17 +513,17 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if(s->xPos == endX && s->yPos + 1 == endY) {
 
-						closed.emplace(closed.begin(), vertices[s->xPos][s->yPos + 1]);
-						vertices[s->xPos][s->yPos + 1]->UpdateParent(s);
+						closed.emplace(closed.begin(), vertices[s->yPos + 1][s->xPos]);
+						vertices[s->yPos + 1][s->xPos]->UpdateParent(s);
 						checking = false;
 						break;
 					}
 				}
 
 				//Up
-				if (adjacency[s->xPos][s->yPos - 1] != NULL) {
+				if (adjacency[s->yPos - 1][s->xPos] != NULL) {
 
-					if (Check_if(closed, vertices[s->xPos][s->yPos - 1]) || vertices[s->xPos][s->yPos - 1]->isWall)
+					if (Check_if(closed, vertices[s->yPos - 1][s->xPos]) || vertices[s->yPos - 1][s->xPos]->isWall)
 					{
 						//In closed list
 						// if t is in closed list, ignore it
@@ -532,17 +531,17 @@ using namespace std;
 					else { //Not in closed list
 						// if t is not in open list, add and compute score
 
-						if (!Check_if(open, vertices[s->xPos][s->yPos - 1])) { //Not in open
-							open.emplace(open.begin(), vertices[s->xPos][s->yPos - 1]);
-							vertices[s->xPos][s->yPos - 1]->UpdateParent(vertices[s->xPos][s->yPos]);
-							vertices[s->xPos][s->yPos - 1]->UpdateG();
+						if (!Check_if(open, vertices[s->yPos - 1][s->xPos])) { //Not in open
+							open.emplace(open.begin(), vertices[s->yPos - 1][s->xPos]);
+							vertices[s->yPos - 1][s->xPos]->UpdateParent(vertices[s->yPos][s->xPos]);
+							vertices[s->yPos - 1][s->xPos]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s->xPos][s->yPos - 1]->f <= (vertices[s->xPos][s->yPos - 1]->ReturnG() + vertices[s->xPos][s->yPos - 1]->heuristic)) {
+							if (vertices[s->yPos - 1][s->xPos]->f <= (vertices[s->yPos - 1][s->xPos]->ReturnG() + vertices[s->yPos - 1][s->xPos]->heuristic)) {
 								//Update score and parent
-								vertices[s->xPos][s->yPos - 1]->UpdateF();
-								vertices[s->xPos][s->yPos - 1]->UpdateParent(s);
+								vertices[s->yPos - 1][s->xPos]->UpdateF();
+								vertices[s->yPos - 1][s->xPos]->UpdateParent(s);
 							}
 						}
 					}
@@ -550,8 +549,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if(s->xPos == endX && s->yPos - 1 == endY) {
 
-						closed.emplace(closed.begin(), vertices[s->xPos][s->yPos - 1]);
-						vertices[s->xPos][s->yPos - 1]->UpdateParent(s);
+						closed.emplace(closed.begin(), vertices[s->yPos - 1][s->xPos]);
+						vertices[s->yPos - 1][s->xPos]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -563,9 +562,9 @@ using namespace std;
 
 				//Right
 				if (s->xPos != width - 1) {
-					if (adjacency[s->xPos + 1][s->yPos] != NULL) {
+					if (adjacency[s->yPos][s->xPos + 1] != NULL) {
 
-						if (Check_if(closed, vertices[s->xPos + 1][s->yPos]) || vertices[s->xPos + 1][s->yPos]->isWall)
+						if (Check_if(closed, vertices[s->yPos][s->xPos + 1]) || vertices[s->yPos][s->xPos + 1]->isWall)
 						{
 							//In closed list
 							// if t is in closed list, ignore it
@@ -573,25 +572,25 @@ using namespace std;
 						else { //Not in closed list
 							// if t is not in open list, add and compute score
 
-							if (!Check_if(open, vertices[s->xPos + 1][s->yPos])) { //Not in open
-								open.emplace(open.begin(), vertices[s->xPos + 1][s->yPos]);
-								vertices[s->xPos + 1][s->yPos]->UpdateParent(vertices[s->xPos][s->yPos]);
-								vertices[s->xPos + 1][s->yPos]->UpdateG();
+							if (!Check_if(open, vertices[s->yPos][s->xPos + 1])) { //Not in open
+								open.emplace(open.begin(), vertices[s->yPos][s->xPos + 1]);
+								vertices[s->yPos][s->xPos + 1]->UpdateParent(vertices[s->yPos][s->xPos]);
+								vertices[s->yPos][s->xPos + 1]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s->xPos + 1][s->yPos]->f <= (vertices[s->xPos + 1][s->yPos]->ReturnG() + vertices[s->xPos + 1][s->yPos]->heuristic)) {
+								if (vertices[s->yPos][s->xPos + 1]->f <= (vertices[s->yPos][s->xPos + 1]->ReturnG() + vertices[s->yPos][s->xPos + 1]->heuristic)) {
 									//Update score and parent
-									vertices[s->xPos + 1][s->yPos]->UpdateF();
-									vertices[s->xPos + 1][s->yPos]->UpdateParent(s);
+									vertices[s->yPos][s->xPos + 1]->UpdateF();
+									vertices[s->yPos][s->xPos + 1]->UpdateParent(s);
 								}
 							}
 						}
 						// if end square is on open list, add to close list
 						if(s->xPos + 1 == endX && s->yPos == endY) {
 
-							closed.emplace(closed.begin(), vertices[s->xPos + 1][s->yPos]);
-							vertices[s->xPos + 1][s->yPos]->UpdateParent(s);
+							closed.emplace(closed.begin(), vertices[s->yPos][s->xPos + 1]);
+							vertices[s->yPos][s->xPos + 1]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -600,26 +599,26 @@ using namespace std;
 
 				//Left
 				if (s->xPos != 0) {
-					if (adjacency[s->xPos - 1][s->yPos] != NULL) {
+					if (adjacency[s->yPos][s->xPos - 1] != NULL) {
 
-						if (Check_if(closed, vertices[s->xPos - 1][s->yPos]) || vertices[s->xPos - 1][s->yPos]->isWall)
+						if (Check_if(closed, vertices[s->yPos][s->xPos - 1]) || vertices[s->yPos][s->xPos - 1]->isWall)
 						{
 							//In closed list
 							// if t is in closed list, ignore it
 						}
 						else { //Not in closed list
 							// if t is not in open list, add and compute score
-							if (!Check_if(open, vertices[s->xPos - 1][s->yPos])) { //Not in open
-								open.emplace(open.begin(), vertices[s->xPos - 1][s->yPos]);
-								vertices[s->xPos - 1][s->yPos]->UpdateParent(vertices[s->xPos][s->yPos]);
-								vertices[s->xPos - 1][s->yPos]->UpdateG();
+							if (!Check_if(open, vertices[s->yPos][s->xPos - 1])) { //Not in open
+								open.emplace(open.begin(), vertices[s->yPos][s->xPos - 1]);
+								vertices[s->yPos][s->xPos - 1]->UpdateParent(vertices[s->yPos][s->xPos]);
+								vertices[s->yPos][s->xPos - 1]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s->xPos - 1][s->yPos]->f <= (vertices[s->xPos - 1][s->yPos]->ReturnG() + vertices[s->xPos - 1][s->yPos]->heuristic)) {
+								if (vertices[s->yPos][s->xPos - 1]->f <= (vertices[s->yPos][s->xPos - 1]->ReturnG() + vertices[s->yPos][s->xPos - 1]->heuristic)) {
 									//Update score and parent
-									vertices[s->xPos - 1][s->yPos]->UpdateF();
-									vertices[s->xPos - 1][s->yPos]->UpdateParent(s);
+									vertices[s->yPos][s->xPos - 1]->UpdateF();
+									vertices[s->yPos][s->xPos - 1]->UpdateParent(s);
 								}
 							}
 						}
@@ -627,8 +626,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if(s->xPos - 1 == endX && s->yPos == endY) {
 
-							closed.emplace(closed.begin(), vertices[s->xPos - 1][s->yPos]);
-							vertices[s->xPos - 1][s->yPos]->UpdateParent(s);
+							closed.emplace(closed.begin(), vertices[s->yPos][s->xPos - 1]);
+							vertices[s->yPos][s->xPos - 1]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -636,9 +635,9 @@ using namespace std;
 				}
 				
 				//Down
-				if (adjacency[s->xPos][s->yPos + 1] != NULL) {
+				if (adjacency[s->yPos + 1][s->xPos] != NULL) {
 
-					if (Check_if(closed, vertices[s->xPos][s->yPos + 1]) || vertices[s->xPos][s->yPos + 1]->isWall)
+					if (Check_if(closed, vertices[s->yPos + 1][s->xPos]) || vertices[s->yPos + 1][s->xPos]->isWall)
 					{
 						//In closed list
 						// if t is in closed list, ignore it
@@ -646,17 +645,17 @@ using namespace std;
 					else { //Not in closed list
 						// if t is not in open list, add and compute score
 
-						if (!Check_if(open, vertices[s->xPos][s->yPos + 1])) { //Not in open
-							open.emplace(open.begin(), vertices[s->xPos][s->yPos + 1]);
-							vertices[s->xPos][s->yPos + 1]->UpdateParent(vertices[s->xPos][s->yPos]);
-							vertices[s->xPos][s->yPos + 1]->UpdateG();
+						if (!Check_if(open, vertices[s->yPos + 1][s->xPos])) { //Not in open
+							open.emplace(open.begin(), vertices[s->yPos + 1][s->xPos]);
+							vertices[s->yPos + 1][s->xPos]->UpdateParent(vertices[s->yPos][s->xPos]);
+							vertices[s->yPos + 1][s->xPos]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s->xPos][s->yPos + 1]->f <= (vertices[s->xPos][s->yPos + 1]->ReturnG() + vertices[s->xPos][s->yPos + 1]->heuristic)) {
+							if (vertices[s->yPos + 1][s->xPos]->f <= (vertices[s->yPos + 1][s->xPos]->ReturnG() + vertices[s->yPos + 1][s->xPos]->heuristic)) {
 								//Update score and parent
-								vertices[s->xPos][s->yPos + 1]->UpdateF();
-								vertices[s->xPos][s->yPos + 1]->UpdateParent(s);
+								vertices[s->yPos + 1][s->xPos]->UpdateF();
+								vertices[s->yPos + 1][s->xPos]->UpdateParent(s);
 							}
 						}
 					}
@@ -664,8 +663,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if(s->xPos == endX && s->yPos + 1 == endY) {
 
-						closed.emplace(closed.begin(), vertices[s->xPos][s->yPos + 1]);
-						vertices[s->xPos][s->yPos + 1]->UpdateParent(s);
+						closed.emplace(closed.begin(), vertices[s->yPos + 1][s->xPos]);
+						vertices[s->yPos + 1][s->xPos]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -675,11 +674,11 @@ using namespace std;
 			//"Left wall" case
 			if (s->xPos == 0) {
 				//Right
-				if (adjacency[s->xPos + 1][s->yPos] != NULL) {
+				if (adjacency[s->yPos][s->xPos + 1] != NULL) {
 
 					
 
-					if (Check_if(closed, vertices[s->xPos + 1][s->yPos]) || vertices[s->xPos + 1][s->yPos]->isWall)
+					if (Check_if(closed, vertices[s->yPos][s->xPos + 1]) || vertices[s->yPos][s->xPos + 1]->isWall)
 					{
 						//In closed list
 						// if t is in closed list, ignore it
@@ -687,17 +686,17 @@ using namespace std;
 					else { //Not in closed list
 						// if t is not in open list, add and compute score
 
-						if (!Check_if(open, vertices[s->xPos + 1][s->yPos])) { //Not in open
-							open.emplace(open.begin(), vertices[s->xPos + 1][s->yPos]);
-							vertices[s->xPos + 1][s->yPos]->UpdateParent(vertices[s->xPos][s->yPos]);
-							vertices[s->xPos + 1][s->yPos]->UpdateG();
+						if (!Check_if(open, vertices[s->yPos][s->xPos + 1])) { //Not in open
+							open.emplace(open.begin(), vertices[s->yPos][s->xPos + 1]);
+							vertices[s->yPos][s->xPos + 1]->UpdateParent(vertices[s->yPos][s->xPos]);
+							vertices[s->yPos][s->xPos + 1]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s->xPos + 1][s->yPos]->f <= (vertices[s->xPos + 1][s->yPos]->ReturnG() + vertices[s->xPos + 1][s->yPos]->heuristic)) {
+							if (vertices[s->yPos][s->xPos + 1]->f <= (vertices[s->yPos][s->xPos + 1]->ReturnG() + vertices[s->yPos][s->xPos + 1]->heuristic)) {
 								//Update score and parent
-								vertices[s->xPos + 1][s->yPos]->UpdateF();
-								vertices[s->xPos + 1][s->yPos]->UpdateParent(s);
+								vertices[s->yPos][s->xPos + 1]->UpdateF();
+								vertices[s->yPos][s->xPos + 1]->UpdateParent(s);
 							}
 						}
 					}
@@ -705,8 +704,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if(s->xPos + 1 == endX && s->yPos == endY) {
 
-						closed.emplace(closed.begin(), vertices[s->xPos + 1][s->yPos]);
-						vertices[s->xPos + 1][s->yPos]->UpdateParent(s);
+						closed.emplace(closed.begin(), vertices[s->yPos][s->xPos + 1]);
+						vertices[s->yPos][s->xPos + 1]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -714,11 +713,11 @@ using namespace std;
 
 				if (s->yPos != 0) {
 					//Up
-					if (adjacency[s->xPos][s->yPos - 1] != NULL) {
+					if (adjacency[s->yPos - 1][s->xPos] != NULL) {
 
 
 
-						if (Check_if(closed, vertices[s->xPos][s->yPos - 1]) || vertices[s->xPos][s->yPos - 1]->isWall)
+						if (Check_if(closed, vertices[s->yPos - 1][s->xPos]) || vertices[s->yPos - 1][s->xPos]->isWall)
 						{
 							//In closed list
 							// if t is in closed list, ignore it
@@ -726,17 +725,17 @@ using namespace std;
 						else { //Not in closed list
 							// if t is not in open list, add and compute score
 
-							if (!Check_if(open, vertices[s->xPos][s->yPos - 1])) { //Not in open
-								open.emplace(open.begin(), vertices[s->xPos][s->yPos - 1]);
-								vertices[s->xPos][s->yPos - 1]->UpdateParent(vertices[s->xPos][s->yPos]);
-								vertices[s->xPos][s->yPos - 1]->UpdateG();
+							if (!Check_if(open, vertices[s->yPos - 1][s->xPos])) { //Not in open
+								open.emplace(open.begin(), vertices[s->yPos - 1][s->xPos]);
+								vertices[s->yPos - 1][s->xPos]->UpdateParent(vertices[s->yPos][s->xPos]);
+								vertices[s->yPos - 1][s->xPos]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s->xPos][s->yPos - 1]->f <= (vertices[s->xPos][s->yPos - 1]->ReturnG() + vertices[s->xPos][s->yPos - 1]->heuristic)) {
+								if (vertices[s->yPos - 1][s->xPos]->f <= (vertices[s->yPos - 1][s->xPos]->ReturnG() + vertices[s->yPos - 1][s->xPos]->heuristic)) {
 									//Update score and parent
-									vertices[s->xPos][s->yPos - 1]->UpdateF();
-									vertices[s->xPos][s->yPos - 1]->UpdateParent(s);
+									vertices[s->yPos - 1][s->xPos]->UpdateF();
+									vertices[s->yPos - 1][s->xPos]->UpdateParent(s);
 								}
 							}
 						}
@@ -744,8 +743,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if(s->xPos == endX && s->yPos - 1 == endY) {
 
-							closed.emplace(closed.begin(), vertices[s->xPos][s->yPos - 1]);
-							vertices[s->xPos][s->yPos - 1]->UpdateParent(s);
+							closed.emplace(closed.begin(), vertices[s->yPos - 1][s->xPos]);
+							vertices[s->yPos - 1][s->xPos]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -754,9 +753,9 @@ using namespace std;
 
 				if (s->yPos != height - 1) {
 					//Down
-					if (adjacency[s->xPos][s->yPos + 1] != NULL) {
+					if (adjacency[s->yPos + 1][s->xPos] != NULL) {
 
-						if (Check_if(closed, vertices[s->xPos][s->yPos + 1]) || vertices[s->xPos][s->yPos + 1]->isWall)
+						if (Check_if(closed, vertices[s->yPos + 1][s->xPos]) || vertices[s->yPos + 1][s->xPos]->isWall)
 						{
 							//In closed list
 							// if t is in closed list, ignore it
@@ -764,17 +763,17 @@ using namespace std;
 						else { //Not in closed list
 							// if t is not in open list, add and compute score
 
-							if (!Check_if(open, vertices[s->xPos][s->yPos + 1])) { //Not in open
-								open.emplace(open.begin(), vertices[s->xPos][s->yPos + 1]);
-								vertices[s->xPos][s->yPos + 1]->UpdateParent(vertices[s->xPos][s->yPos]);
-								vertices[s->xPos][s->yPos + 1]->UpdateG();
+							if (!Check_if(open, vertices[s->yPos + 1][s->xPos])) { //Not in open
+								open.emplace(open.begin(), vertices[s->yPos + 1][s->xPos]);
+								vertices[s->yPos + 1][s->xPos]->UpdateParent(vertices[s->yPos][s->xPos]);
+								vertices[s->yPos + 1][s->xPos]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s->xPos][s->yPos + 1]->f <= (vertices[s->xPos][s->yPos + 1]->ReturnG() + vertices[s->xPos][s->yPos + 1]->heuristic)) {
+								if (vertices[s->yPos + 1][s->xPos]->f <= (vertices[s->yPos + 1][s->xPos]->ReturnG() + vertices[s->yPos + 1][s->xPos]->heuristic)) {
 									//Update score and parent
-									vertices[s->xPos][s->yPos + 1]->UpdateF();
-									vertices[s->xPos][s->yPos + 1]->UpdateParent(s);
+									vertices[s->yPos + 1][s->xPos]->UpdateF();
+									vertices[s->yPos + 1][s->xPos]->UpdateParent(s);
 								}
 							}
 						}
@@ -782,8 +781,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if(s->xPos == endX && s->yPos + 1 == endY) {
 
-							closed.emplace(closed.begin(), vertices[s->xPos][s->yPos + 1]);
-							vertices[s->xPos][s->yPos + 1]->UpdateParent(s);
+							closed.emplace(closed.begin(), vertices[s->yPos + 1][s->xPos]);
+							vertices[s->yPos + 1][s->xPos]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -795,11 +794,11 @@ using namespace std;
 			if (s->yPos == height - 1) {
 
 				//Up
-				if (adjacency[s->xPos][s->yPos - 1] != NULL) {
+				if (adjacency[s->yPos - 1][s->xPos] != NULL) {
 
 
 
-					if (Check_if(closed, vertices[s->xPos][s->yPos - 1]) || vertices[s->xPos][s->yPos - 1]->isWall)
+					if (Check_if(closed, vertices[s->yPos - 1][s->xPos]) || vertices[s->yPos - 1][s->xPos]->isWall)
 					{
 						//In closed list
 						// if t is in closed list, ignore it
@@ -807,17 +806,17 @@ using namespace std;
 					else { //Not in closed list
 						// if t is not in open list, add and compute score
 
-						if (!Check_if(open, vertices[s->xPos][s->yPos - 1])) { //Not in open
-							open.emplace(open.begin(), vertices[s->xPos][s->yPos - 1]);
-							vertices[s->xPos][s->yPos - 1]->UpdateParent(vertices[s->xPos][s->yPos]);
-							vertices[s->xPos][s->yPos - 1]->UpdateG();
+						if (!Check_if(open, vertices[s->yPos - 1][s->xPos])) { //Not in open
+							open.emplace(open.begin(), vertices[s->yPos - 1][s->xPos]);
+							vertices[s->yPos - 1][s->xPos]->UpdateParent(vertices[s->yPos][s->xPos]);
+							vertices[s->yPos - 1][s->xPos]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s->xPos][s->yPos - 1]->f <= (vertices[s->xPos][s->yPos - 1]->ReturnG() + vertices[s->xPos][s->yPos - 1]->heuristic)) {
+							if (vertices[s->yPos - 1][s->xPos]->f <= (vertices[s->yPos - 1][s->xPos]->ReturnG() + vertices[s->yPos - 1][s->xPos]->heuristic)) {
 								//Update score and parent
-								vertices[s->xPos][s->yPos - 1]->UpdateF();
-								vertices[s->xPos][s->yPos - 1]->UpdateParent(s);
+								vertices[s->yPos - 1][s->xPos]->UpdateF();
+								vertices[s->yPos - 1][s->xPos]->UpdateParent(s);
 							}
 						}
 					}
@@ -825,8 +824,8 @@ using namespace std;
 					// if end square is on open list, add to close list
 					if(s->xPos == endX && s->yPos - 1 == endY) {
 
-						closed.emplace(closed.begin(), vertices[s->xPos][s->yPos - 1]);
-						vertices[s->xPos][s->yPos - 1]->UpdateParent(s);
+						closed.emplace(closed.begin(), vertices[s->yPos - 1][s->xPos]);
+						vertices[s->yPos - 1][s->xPos]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -834,11 +833,11 @@ using namespace std;
 
 				//Right
 				if (s->xPos != width - 1) {
-					if (adjacency[s->xPos + 1][s->yPos] != NULL) {
+					if (adjacency[s->yPos][s->xPos + 1] != NULL) {
 
 
 
-						if (Check_if(closed, vertices[s->xPos + 1][s->yPos]) || vertices[s->xPos + 1][s->yPos]->isWall)
+						if (Check_if(closed, vertices[s->yPos][s->xPos + 1]) || vertices[s->yPos][s->xPos + 1]->isWall)
 						{
 							//In closed list
 							// if t is in closed list, ignore it
@@ -846,17 +845,17 @@ using namespace std;
 						else { //Not in closed list
 							// if t is not in open list, add and compute score
 
-							if (!Check_if(open, vertices[s->xPos + 1][s->yPos])) { //Not in open
-								open.emplace(open.begin(), vertices[s->xPos + 1][s->yPos]);
-								vertices[s->xPos + 1][s->yPos]->UpdateParent(vertices[s->xPos][s->yPos]);
-								vertices[s->xPos + 1][s->yPos]->UpdateG();
+							if (!Check_if(open, vertices[s->yPos][s->xPos + 1])) { //Not in open
+								open.emplace(open.begin(), vertices[s->yPos][s->xPos + 1]);
+								vertices[s->yPos][s->xPos + 1]->UpdateParent(vertices[s->yPos][s->xPos]);
+								vertices[s->yPos][s->xPos + 1]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s->xPos + 1][s->yPos]->f <= (vertices[s->xPos + 1][s->yPos]->ReturnG() + vertices[s->xPos + 1][s->yPos]->heuristic)) {
+								if (vertices[s->yPos][s->xPos + 1]->f <= (vertices[s->yPos][s->xPos + 1]->ReturnG() + vertices[s->yPos][s->xPos + 1]->heuristic)) {
 									//Update score and parent
-									vertices[s->xPos + 1][s->yPos]->UpdateF();
-									vertices[s->xPos + 1][s->yPos]->UpdateParent(s);
+									vertices[s->yPos][s->xPos + 1]->UpdateF();
+									vertices[s->yPos][s->xPos + 1]->UpdateParent(s);
 								}
 							}
 						}
@@ -864,8 +863,8 @@ using namespace std;
 						// if end square is on open list, add to close list
 						if(s->xPos + 1 == endX && s->yPos == endY) {
 
-							closed.emplace(closed.begin(), vertices[s->xPos + 1][s->yPos]);
-							vertices[s->xPos + 1][s->yPos]->UpdateParent(s);
+							closed.emplace(closed.begin(), vertices[s->yPos][s->xPos + 1]);
+							vertices[s->yPos][s->xPos + 1]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -874,10 +873,10 @@ using namespace std;
 
 				//Left
 				if (s->xPos != 0) {
-					if (adjacency[s->xPos - 1][s->yPos] != NULL) {
+					if (adjacency[s->yPos][s->xPos - 1] != NULL) {
 
 
-						if (Check_if(closed, vertices[s->xPos - 1][s->yPos]) || vertices[s->xPos - 1][s->yPos]->isWall)
+						if (Check_if(closed, vertices[s->yPos][s->xPos - 1]) || vertices[s->yPos][s->xPos - 1]->isWall)
 						{
 							//In closed list
 							// if t is in closed list, ignore it
@@ -885,25 +884,25 @@ using namespace std;
 						else { //Not in closed list
 							// if t is not in open list, add and compute score
 
-							if (!Check_if(open, vertices[s->xPos - 1][s->yPos])) { //Not in open
-								open.emplace(open.begin(), vertices[s->xPos - 1][s->yPos]);
-								vertices[s->xPos - 1][s->yPos]->UpdateParent(vertices[s->xPos][s->yPos]);
-								vertices[s->xPos - 1][s->yPos]->UpdateG();
+							if (!Check_if(open, vertices[s->yPos][s->xPos - 1])) { //Not in open
+								open.emplace(open.begin(), vertices[s->yPos][s->xPos - 1]);
+								vertices[s->yPos][s->xPos - 1]->UpdateParent(vertices[s->yPos][s->xPos]);
+								vertices[s->yPos][s->xPos - 1]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s->xPos - 1][s->yPos]->f <= (vertices[s->xPos - 1][s->yPos]->ReturnG() + vertices[s->xPos - 1][s->yPos]->heuristic)) {
+								if (vertices[s->yPos][s->xPos - 1]->f <= (vertices[s->yPos][s->xPos - 1]->ReturnG() + vertices[s->yPos][s->xPos - 1]->heuristic)) {
 									//Update score and parent
-									vertices[s->xPos - 1][s->yPos]->UpdateF();
-									vertices[s->xPos - 1][s->yPos]->UpdateParent(s);
+									vertices[s->yPos][s->xPos - 1]->UpdateF();
+									vertices[s->yPos][s->xPos - 1]->UpdateParent(s);
 								}
 							}
 						}
 						// if end square is on open list, add to close list
 						if(s->xPos - 1 == endX && s->yPos == endY) {
 
-							closed.emplace(closed.begin(), vertices[s->xPos - 1][s->yPos]);
-							vertices[s->xPos - 1][s->yPos]->UpdateParent(s);
+							closed.emplace(closed.begin(), vertices[s->yPos][s->xPos - 1]);
+							vertices[s->yPos][s->xPos - 1]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -916,10 +915,10 @@ using namespace std;
 
 				//Up
 				if (s->yPos != 0) {
-					if (adjacency[s->xPos][s->yPos - 1] != NULL) {
+					if (adjacency[s->yPos - 1][s->xPos] != NULL) {
 
 
-						if (Check_if(closed, vertices[s->xPos][s->yPos - 1]) || vertices[s->xPos][s->yPos - 1]->isWall)
+						if (Check_if(closed, vertices[s->yPos - 1][s->xPos]) || vertices[s->yPos - 1][s->xPos]->isWall)
 						{
 							//In closed list
 							// if t is in closed list, ignore it
@@ -927,25 +926,25 @@ using namespace std;
 						else { //Not in closed list
 							// if t is not in open list, add and compute score
 
-							if (!Check_if(open, vertices[s->xPos][s->yPos - 1])) { //Not in open
-								open.emplace(open.begin(), vertices[s->xPos][s->yPos - 1]);
-								vertices[s->xPos][s->yPos - 1]->UpdateParent(vertices[s->xPos][s->yPos]);
-								vertices[s->xPos][s->yPos - 1]->UpdateG();
+							if (!Check_if(open, vertices[s->yPos - 1][s->xPos])) { //Not in open
+								open.emplace(open.begin(), vertices[s->yPos - 1][s->xPos]);
+								vertices[s->yPos - 1][s->xPos]->UpdateParent(vertices[s->yPos][s->xPos]);
+								vertices[s->yPos - 1][s->xPos]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s->xPos][s->yPos - 1]->f <= (vertices[s->xPos][s->yPos - 1]->ReturnG() + vertices[s->xPos][s->yPos - 1]->heuristic)) {
+								if (vertices[s->yPos - 1][s->xPos]->f <= (vertices[s->yPos - 1][s->xPos]->ReturnG() + vertices[s->yPos - 1][s->xPos]->heuristic)) {
 									//Update score and parent
-									vertices[s->xPos][s->yPos - 1]->UpdateF();
-									vertices[s->xPos][s->yPos - 1]->UpdateParent(s);
+									vertices[s->yPos - 1][s->xPos]->UpdateF();
+									vertices[s->yPos - 1][s->xPos]->UpdateParent(s);
 								}
 							}
 						}
 						// if end square is on open list, add to close list
 						if(s->xPos == endX && s->yPos - 1 == endY) {
 
-							closed.emplace(closed.begin(), vertices[s->xPos][s->yPos - 1]);
-							vertices[s->xPos][s->yPos - 1]->UpdateParent(s);
+							closed.emplace(closed.begin(), vertices[s->yPos - 1][s->xPos]);
+							vertices[s->yPos - 1][s->xPos]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -954,10 +953,10 @@ using namespace std;
 
 				// Down
 				if (s->yPos != height - 1) {
-					if (adjacency[s->xPos][s->yPos + 1] != NULL) {
+					if (adjacency[s->yPos + 1][s->xPos] != NULL) {
 
 
-						if (Check_if(closed, vertices[s->xPos][s->yPos + 1]) || vertices[s->xPos][s->yPos + 1]->isWall)
+						if (Check_if(closed, vertices[s->yPos + 1][s->xPos]) || vertices[s->yPos + 1][s->xPos]->isWall)
 						{
 							// In closed list
 							// if t is in closed list, ignore it
@@ -965,25 +964,25 @@ using namespace std;
 						else { // Not in closed list
 							// if t is not in open list, add and compute score
 
-							if (!Check_if(open, vertices[s->xPos][s->yPos + 1])) { //Not in open
-								open.emplace(open.begin(), vertices[s->xPos][s->yPos + 1]);
-								vertices[s->xPos][s->yPos + 1]->UpdateParent(vertices[s->xPos][s->yPos]);
-								vertices[s->xPos][s->yPos + 1]->UpdateG();
+							if (!Check_if(open, vertices[s->yPos + 1][s->xPos])) { //Not in open
+								open.emplace(open.begin(), vertices[s->yPos + 1][s->xPos]);
+								vertices[s->yPos + 1][s->xPos]->UpdateParent(vertices[s->yPos][s->xPos]);
+								vertices[s->yPos + 1][s->xPos]->UpdateG();
 							}
 							else { // In open
 								//Check if F score is lower on current path
-								if (vertices[s->xPos][s->yPos + 1]->f <= (vertices[s->xPos][s->yPos + 1]->ReturnG() + vertices[s->xPos][s->yPos + 1]->heuristic)) {
+								if (vertices[s->yPos + 1][s->xPos]->f <= (vertices[s->yPos + 1][s->xPos]->ReturnG() + vertices[s->yPos + 1][s->xPos]->heuristic)) {
 									//Update score and parent
-									vertices[s->xPos][s->yPos + 1]->UpdateF();
-									vertices[s->xPos][s->yPos + 1]->UpdateParent(s);
+									vertices[s->yPos + 1][s->xPos]->UpdateF();
+									vertices[s->yPos + 1][s->xPos]->UpdateParent(s);
 								}
 							}
 						}
 						// if end square is on open list, add to close list
 						if(s->xPos == endX && s->yPos + 1 == endY) {
 
-							closed.emplace(closed.begin(), vertices[s->xPos][s->yPos + 1]);
-							vertices[s->xPos][s->yPos + 1]->UpdateParent(s);
+							closed.emplace(closed.begin(), vertices[s->yPos + 1][s->xPos]);
+							vertices[s->yPos + 1][s->xPos]->UpdateParent(s);
 							checking = false;
 							break;
 						}
@@ -991,10 +990,10 @@ using namespace std;
 				}
 
 				// Left
-				if (adjacency[s->xPos - 1][s->yPos] != NULL) {
+				if (adjacency[s->yPos][s->xPos - 1] != NULL) {
 
 
-					if (Check_if(closed, vertices[s->xPos - 1][s->yPos]) || vertices[s->xPos - 1][s->yPos]->isWall)
+					if (Check_if(closed, vertices[s->yPos][s->xPos - 1]) || vertices[s->yPos][s->xPos - 1]->isWall)
 					{
 						// In closed list
 						// if t is in closed list, ignore it
@@ -1002,25 +1001,25 @@ using namespace std;
 					else { // Not in closed list
 						// if t is not in open list, add and compute score
 
-						if (!Check_if(open, vertices[s->xPos - 1][s->yPos])) { //Not in open
-							open.emplace(open.begin(), vertices[s->xPos - 1][s->yPos]);
-							vertices[s->xPos - 1][s->yPos]->UpdateParent(vertices[s->xPos][s->yPos]);
-							vertices[s->xPos - 1][s->yPos]->UpdateG();
+						if (!Check_if(open, vertices[s->yPos][s->xPos - 1])) { //Not in open
+							open.emplace(open.begin(), vertices[s->yPos][s->xPos - 1]);
+							vertices[s->yPos][s->xPos - 1]->UpdateParent(vertices[s->yPos][s->xPos]);
+							vertices[s->yPos][s->xPos - 1]->UpdateG();
 						}
 						else { // In open
 							//Check if F score is lower on current path
-							if (vertices[s->xPos - 1][s->yPos]->f <= (vertices[s->xPos - 1][s->yPos]->ReturnG() + vertices[s->xPos - 1][s->yPos]->heuristic)) {
+							if (vertices[s->yPos][s->xPos - 1]->f <= (vertices[s->yPos][s->xPos - 1]->ReturnG() + vertices[s->yPos][s->xPos - 1]->heuristic)) {
 								//Update score and parent
-								vertices[s->xPos - 1][s->yPos]->UpdateF();
-								vertices[s->xPos - 1][s->yPos]->UpdateParent(s);
+								vertices[s->yPos][s->xPos - 1]->UpdateF();
+								vertices[s->yPos][s->xPos - 1]->UpdateParent(s);
 							}
 						}
 					}
 					// if end square is on open list, add to close list
 					if(s->xPos - 1 == endX && s->yPos == endY) {
 
-						closed.emplace(closed.begin(), vertices[s->xPos - 1][s->yPos]);
-						vertices[s->xPos - 1][s->yPos]->UpdateParent(s);
+						closed.emplace(closed.begin(), vertices[s->yPos][s->xPos - 1]);
+						vertices[s->yPos][s->xPos - 1]->UpdateParent(s);
 						checking = false;
 						break;
 					}
@@ -1029,7 +1028,7 @@ using namespace std;
 		}
 
 		// go backwards from end tile parent by parent to learn exact shortest path
-		Vertex* currentVert = vertices[endX][endY];
+		Vertex* currentVert = vertices[endY][endX];
 		while (currentVert->ReturnParent() != nullptr)
 		{
 			shortestPath.emplace(shortestPath.begin(), currentVert);
@@ -1067,12 +1066,12 @@ using namespace std;
 					// if t is not in open list, add and compute score
 					if (!Check_if(open, vertices[s->xPos + xShift][s->yPos + yShift])) { // Not in open
 						open.emplace(open.begin(), vertices[s->xPos + xShift][s->yPos + yShift]);
-						vertices[s->xPos + xShift][s->yPos + yShift]->UpdateParent(vertices[s->xPos][s->yPos]);
+						vertices[s->xPos + xShift][s->yPos + yShift]->UpdateParent(vertices[s->yPos][s->xPos]);
 						vertices[s->xPos + xShift][s->yPos + yShift]->UpdateG();
 					}
 					else { // In open
 						//Check if F score is lower on current path
-						if (vertices[s->xPos + xShift][s->yPos + yShift]->f <= (vertices[s->xPos + xShift][s->yPos + yShift]->ReturnG() + vertices[s->xPos - 1][s->yPos]->heuristic)) {
+						if (vertices[s->xPos + xShift][s->yPos + yShift]->f <= (vertices[s->xPos + xShift][s->yPos + yShift]->ReturnG() + vertices[s->yPos][s->xPos - 1]->heuristic)) {
 							//Update score and parent
 							vertices[s->xPos + xShift][s->yPos + yShift]->UpdateF();
 							vertices[s->xPos + xShift][s->yPos + yShift]->UpdateParent(s);

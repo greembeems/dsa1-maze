@@ -24,6 +24,8 @@ int length = 0;
 
 Graph* aGraph;
 
+Vertex* vert;
+
 // Returns string with team members' names
  __declspec(dllexport) char* GetTeam()
 {
@@ -66,11 +68,15 @@ Graph* aGraph;
         aGraph->aStar(sXPos, sYPos, eXPos, eYPos);
         aGraph->Reverse();
     }
+    
+    if ((aGraph->shortestPath).size() != NULL) {
+        vert = aGraph->shortestPath.back();
+    }
+    
+    
+    if ((aGraph->shortestPath).size() != NULL) {
+        
 
-    Vertex *vert = aGraph->shortestPath.back();
-
-
-    if ((aGraph->shortestPath).back() != NULL) {
         xpos = vert->xPos;
         ypos = vert->yPos;
 
