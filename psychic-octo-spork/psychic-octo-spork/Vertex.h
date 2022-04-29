@@ -11,13 +11,14 @@ class Vertex
 public:
 	
 	bool isWall;
+	int weight;
 	int f;
 	int g = MAXINT;
 	int xPos;
 	int yPos;
 	int heuristic; // Estimated cost from current square to destination
 	// Constructor
-	Vertex(int x, int y, bool wall);
+	Vertex(int x, int y, bool wall, int tileWeight);
 
 	// Methods
 	void UpdateParent(Vertex* newParent);

@@ -2,13 +2,15 @@
 #include "Vertex.h"
 
 	// Constructor
-	Vertex::Vertex(int x, int y, bool wall)
+	Vertex::Vertex(int x, int y, bool wall, int tileWeight)
 	{
 		visited = false;
 
 		// x and y position of the vertex
 		xPos = x;
 		yPos = y;
+
+		weight = tileWeight;
 
 		isWall = wall;
 
@@ -54,11 +56,11 @@
 	}
 
 	/// <summary>
-	/// Stores tile's new lowestCost by taking from parent tile and adding 1
+	/// Stores tile's new lowestCost by taking from parent tile and adding the current tile weight
 	/// </summary>
 	void Vertex::UpdateG()
 	{
-		g = parent->ReturnG() + 1;
+		g = parent->ReturnG() + weight;
 	}
 
 	void Vertex::UpdateF() {

@@ -28,12 +28,12 @@ void Graph::Setup()
 		{
 			// If not a wall, add to matrix
 			if (data[i][j] >= 1) {
-				generatedVertex = new Vertex(i, j, false);
+				generatedVertex = new Vertex(i, j, false, data[i][j]);
 				// Push to the back of the list of vertices
 				row.push_back(generatedVertex);
 			}
 			else {
-				generatedVertex = new Vertex(i, j, true);
+				generatedVertex = new Vertex(i, j, true, data[i][j]);
 				// Push to the back of the list of vertices
 				row.push_back(generatedVertex);
 			}
