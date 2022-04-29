@@ -48,7 +48,7 @@ public:
 
 	vector<Vertex*> GetShortestPath();
 
-	bool Remove_if(vector<Vertex*> list , Vertex* s);
+	bool Remove_if(Vertex* s);
 
 	bool Check_if(vector<Vertex*> list, Vertex* s);
 

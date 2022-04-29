@@ -24,8 +24,6 @@ int length = 0;
 
 Graph* aGraph;
 
-Vertex* vert;
-
 // Returns string with team members' names
  __declspec(dllexport) char* GetTeam()
 {
@@ -65,17 +63,14 @@ Vertex* vert;
     if (currentIndex == 0)
     {
         aGraph = new Graph(mData, mHeight, mWidth);
-        aGraph->aStar(sXPos, sYPos, eXPos, eYPos);
+        if (!aGraph->aStar(sXPos, sYPos, eXPos, eYPos)) {
+            return false;
+        }
         aGraph->Reverse();
     }
     
     if ((aGraph->shortestPath).size() != NULL) {
-        vert = aGraph->shortestPath.back();
-    }
-    
-    
-    if ((aGraph->shortestPath).size() != NULL) {
-        
+        Vertex* vert = aGraph->shortestPath.back();
 
         xpos = vert->xPos;
         ypos = vert->yPos;
